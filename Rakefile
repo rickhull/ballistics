@@ -15,9 +15,9 @@ begin
   gem "rake-compiler"
   require "rake/extensiontask"
 
-  Rake::ExtensionTask.new "ballistics/ext" do |ext|
-    ext.lib_dir = "lib"
-    ext.ext_dir = "ext/ballistics"
+  Rake::ExtensionTask.new "ballistics/ext" do |t|
+    t.lib_dir = "lib"
+    t.ext_dir = "ext/ballistics"
   end
 
   @compile_task = true
