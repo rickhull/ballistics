@@ -1,5 +1,4 @@
 require 'ballistics/ballistics'
-require 'ballistics/atmosphere'
 
 module Ballistics
   DRAG_NUM = {}
@@ -27,7 +26,7 @@ module Ballistics
     ].map { |param| opts.fetch(param) }
     atm = opts[:atmosphere]
     args[0] = DRAG_NUM.fetch(args[0])
-    args[1] = atm.translate.(args[1]) if atm
+    args[1] = atm.translate(args[1]) if atm
 
     self._map_trajectory(*args)
   end

@@ -34,7 +34,7 @@ module Ballistics
     RANKLINE_CORRECTION = 459.4.to_d
     TEMP_ALTITUDE_CORRECTION = -0.0036.to_d # degrees per foot
 
-    attr_reader ARMY.keys
+    attr_reader *ARMY.keys
 
     def initialize(opts = {})
       opts = ARMY.merge(opts)

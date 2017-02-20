@@ -1,4 +1,4 @@
-require_relative "../../lib/ballistics/utils"
+require "ballistics/utils"
 
 describe Ballistics do
   context 'Bullet Calculations' do

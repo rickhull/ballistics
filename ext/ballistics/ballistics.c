@@ -2,16 +2,12 @@
 #include <gnu_ballistics.h>
 VALUE method_calculate_zero_angle(VALUE self, VALUE drag_function, VALUE drag_coefficient, VALUE velocity, VALUE sight_height, VALUE zero_range, VALUE y_intercept);
 VALUE method_map_trajectory(VALUE self, VALUE drag_function, VALUE drag_coefficient, VALUE velocity, VALUE sight_height, VALUE shooting_angle, VALUE zero_angle, VALUE wind_speed, VALUE wind_angle, VALUE max_range, VALUE interval);
-	
+
 VALUE cBallistics;
-VALUE cZero;
-VALUE cTrajectory;
 void Init_ballistics() {
   cBallistics = rb_define_module("Ballistics");
-  cZero = rb_define_module_under(cBallistics, "Zero");
-  cTrajectory = rb_define_module_under(cBallistics, "Trajectory");
-  rb_define_singleton_method(cZero, "_calculate_zero_angle", method_calculate_zero_angle, 6);
-  rb_define_singleton_method(cTrajectory, "_map_trajectory", method_map_trajectory, 10);
+  rb_define_singleton_method(cBallistics, "_calculate_zero_angle", method_calculate_zero_angle, 6);
+  rb_define_singleton_method(cBallistics, "_map_trajectory", method_map_trajectory, 10);
 }
 
 VALUE method_calculate_zero_angle(VALUE self, VALUE drag_function, VALUE drag_coefficient, VALUE velocity, VALUE sight_height, VALUE zero_range, VALUE y_intercept) {
@@ -43,10 +39,10 @@ VALUE method_map_trajectory(VALUE self, VALUE drag_function, VALUE drag_coeffici
 	double vx=0, vx1=0, vy=0, vy1=0;
 	double dv=0, dvx=0, dvy=0;
 	double x=0, y=0;
-	
+
 	double headwind=HeadWind(WindSpeed, WindAngle);
 	double crosswind=CrossWind(WindSpeed, WindAngle);
-	
+
 	double Gy=GRAVITY*cos(DegtoRad((ShootingAngle + ZAngle)));
 	double Gx=GRAVITY*sin(DegtoRad((ShootingAngle + ZAngle)));
 
@@ -59,16 +55,16 @@ VALUE method_map_trajectory(VALUE self, VALUE drag_function, VALUE drag_coeffici
 	int n=0;
 	for (t=0;;t=t+dt){
 
-		vx1=vx, vy1=vy;	
+		vx1=vx, vy1=vy;
 		v=pow(pow(vx,2)+pow(vy,2),0.5);
 		dt=0.5/v;
-	
-		// Compute acceleration using the drag function retardation	
-		dv = retard(DragFunction,DragCoefficient,v+headwind);		
+
+		// Compute acceleration using the drag function retardation
+		dv = retard(DragFunction,DragCoefficient,v+headwind);
 		dvx = -(vx/v)*dv;
 		dvy = -(vy/v)*dv;
 
-		// Compute velocity, including the resolved gravity vectors.	
+		// Compute velocity, including the resolved gravity vectors.
 		vx=vx + dt*dvx + dt*Gx;
 		vy=vy + dt*dvy + dt*Gy;
 
@@ -89,13 +85,13 @@ VALUE method_map_trajectory(VALUE self, VALUE drag_function, VALUE drag_coeffici
         rb_hash_aset(entry, rb_str_new2("velocity"), rb_float_new(v));
         rb_ary_push(result_array, entry);
       }
-      n++;	
-		}	
-		
+      n++;
+		}
+
 		// Compute position based on average velocity.
 		x=x+dt*(vx+vx1)/2;
 		y=y+dt*(vy+vy1)/2;
-		
+
 		if (fabs(vy)>fabs(3*vx)) break;
 		if (n>=MaxRange+1) break;
 	}

@@ -1,7 +1,7 @@
-module Ballistics
-  require 'bigdecimal'
-  require 'bigdecimal/util'
+require 'bigdecimal'
+require 'bigdecimal/util'
 
+module Ballistics
   UNIT_CORRECTION_FACTOR = 225400.to_d # (7000 gr./lb. * 32.2 f.p.s. ** 2)
   ACCELERATION_OF_GRAVITY = 32.2.to_d
 
