@@ -1,3 +1,3 @@
 require 'mkmf'
 
-create_makefile('ballistics/ballistics')
+create_makefile('ballistics/ext')

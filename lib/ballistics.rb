@@ -1,4 +1,4 @@
-require 'ballistics/ballistics'
+require 'ballistics/ext'
 
 module Ballistics
   DRAG_NUM = {}
@@ -28,7 +28,7 @@ module Ballistics
     atm = opts[:atmosphere]
     args[1] = atm.translate(args[1]) if atm
 
-    self._map_trajectory(*args)
+    Ext.trajectory(*args)
   end
 
   def self.zero_angle(opts = {})
@@ -46,6 +46,6 @@ module Ballistics
     atm = opts[:atmosphere]
     args[1] = atm.translate(args[1]) if atm
 
-    self._calculate_zero_angle(*args)
+    Ext.zero_angle(*args)
   end
 end

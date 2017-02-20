@@ -1,21 +1,23 @@
 #include <ruby.h>
 #include <gnu_ballistics.h>
-VALUE method_calculate_zero_angle(VALUE self, VALUE drag_function, VALUE drag_coefficient, VALUE velocity, VALUE sight_height, VALUE zero_range, VALUE y_intercept);
-VALUE method_map_trajectory(VALUE self, VALUE drag_function, VALUE drag_coefficient, VALUE velocity, VALUE sight_height, VALUE shooting_angle, VALUE zero_angle, VALUE wind_speed, VALUE wind_angle, VALUE max_range, VALUE interval);
+VALUE method_zero_angle(VALUE self, VALUE drag_function, VALUE drag_coefficient, VALUE velocity, VALUE sight_height, VALUE zero_range, VALUE y_intercept);
+VALUE method_trajectory(VALUE self, VALUE drag_function, VALUE drag_coefficient, VALUE velocity, VALUE sight_height, VALUE shooting_angle, VALUE zero_angle, VALUE wind_speed, VALUE wind_angle, VALUE max_range, VALUE interval);
 
 VALUE cBallistics;
-void Init_ballistics() {
+VALUE cExt;
+void Init_ext() {
   cBallistics = rb_define_module("Ballistics");
-  rb_define_singleton_method(cBallistics, "_calculate_zero_angle", method_calculate_zero_angle, 6);
-  rb_define_singleton_method(cBallistics, "_map_trajectory", method_map_trajectory, 10);
+  cExt = rb_define_module_under(cBallistics, "Ext");
+  rb_define_singleton_method(cExt, "zero_angle", method_zero_angle, 6);
+  rb_define_singleton_method(cExt, "trajectory", method_trajectory, 10);
 }
 
-VALUE method_calculate_zero_angle(VALUE self, VALUE drag_function, VALUE drag_coefficient, VALUE velocity, VALUE sight_height, VALUE zero_range, VALUE y_intercept) {
+VALUE method_zero_angle(VALUE self, VALUE drag_function, VALUE drag_coefficient, VALUE velocity, VALUE sight_height, VALUE zero_range, VALUE y_intercept) {
   double angle =  ZeroAngle(FIX2INT(drag_function), NUM2DBL(drag_coefficient), NUM2DBL(velocity), NUM2DBL(sight_height), NUM2DBL(zero_range), NUM2DBL(y_intercept));
   return rb_float_new(angle);
 }
 
-VALUE method_map_trajectory(VALUE self, VALUE drag_function, VALUE drag_coefficient, VALUE velocity, VALUE sight_height, VALUE shooting_angle, VALUE zero_angle, VALUE wind_speed, VALUE wind_angle, VALUE max_range, VALUE interval) {
+VALUE method_trajectory(VALUE self, VALUE drag_function, VALUE drag_coefficient, VALUE velocity, VALUE sight_height, VALUE shooting_angle, VALUE zero_angle, VALUE wind_speed, VALUE wind_angle, VALUE max_range, VALUE interval) {
 
   /* cast ruby variables */
   int    DragFunction = FIX2INT(drag_function);
