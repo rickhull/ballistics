@@ -24,10 +24,10 @@ module Ballistics
       :max_range,
       :interval,
     ].map { |param| opts.fetch(param) }
-    atm = opts[:atmosphere]
     args[0] = DRAG_NUM.fetch(args[0])
+    atm = opts[:atmosphere]
     args[1] = atm.translate(args[1]) if atm
-    p args
+
     self._map_trajectory(*args)
   end
 
@@ -43,6 +43,8 @@ module Ballistics
       :y_intercept,
     ].map { |param| opts.fetch(param) }
     args[0] = DRAG_NUM.fetch(args[0])
+    atm = opts[:atmosphere]
+    args[1] = atm.translate(args[1]) if atm
 
     self._calculate_zero_angle(*args)
   end
