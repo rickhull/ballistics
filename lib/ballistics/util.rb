@@ -45,24 +45,23 @@ module Ballistics
     self.lbs(weight) * velocity.to_d * caliber.to_d
   end
 
-  def self.recoil_impulse(bullet_weight, propellant_weight,
-                          velocity, propellant_velocity=4000)
-    self.mass(self.lbs(bullet_weight.to_d * velocity.to_d +
-                       propellant_weight.to_d * propellant_velocity.to_d))
+  def self.recoil_impulse(proj_weight, charge_weight, proj_v, charge_v=4000)
+    self.mass(self.lbs(proj_weight.to_d * proj_v.to_d +
+                       charge_weight.to_d * charge_v.to_d))
   end
 
-  def self.free_recoil(bullet_weight, propellant_weight,
-                       velocity, firearm_lbs, propellant_velocity=4000)
-    self.recoil_impulse(bullet_weight, propellant_weight,
-                        velocity, propellant_velocity) / self.mass(firearm_lbs)
+  def self.free_recoil(proj_weight, charge_weight,
+                       proj_v, gun_lbs, charge_v=4000)
+    self.recoil_impulse(proj_weight, charge_weight, proj_v, charge_v) /
+      self.mass(gun_lbs)
   end
 
-  # 1/2 m(firearm) * fr^2
+  # 1/2 m(gun) * fr^2
   #
-  def self.recoil_energy(bullet_weight, propellant_weight,
-                         velocity, firearm_lbs, propellant_velocity=4000)
-    fr = self.free_recoil(bullet_weight, propellant_weight,
-                          velocity, firearm_lbs, propellant_velocity)
-    self.mass(firearm_lbs) * fr ** 2 / 2
+  def self.recoil_energy(proj_weight, charge_weight,
+                         proj_v, gun_lbs, charge_v=4000)
+    fr = self.free_recoil(proj_weight, charge_weight,
+                          proj_v, gun_lbs, charge_v)
+    self.mass(gun_lbs) * fr ** 2 / 2
   end
 end
