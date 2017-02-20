@@ -7,7 +7,8 @@ module Ballistics
     ARMY = {
       altitude: 0.to_d,       # feet
       humidity: 0.78.to_d,    # percent
-      pressure: 29.5275.to_d, # inches of mercury
+#      pressure: 29.5275.to_d, # inches of mercury
+      pressure: 29.53.to_d, # inches of mercury
       temp: 59.to_d,          # degrees fahrenheit
     }
 
