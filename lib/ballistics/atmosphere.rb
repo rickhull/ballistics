@@ -1,9 +1,11 @@
 require 'bigdecimal'
 require 'bigdecimal/util'
 
+# http://www.exteriorballistics.com/ebexplained/4th/51.cfm
+
 module Ballistics
   class Atmosphere
-    # US Army standard, used by most commercial ammunition
+    # US Army standard, used by most commercial ammunition specs
     ARMY = {
       altitude: 0.to_d,       # feet
       humidity: 0.78.to_d,    # percent
@@ -19,60 +21,66 @@ module Ballistics
       temp: 59.to_d,
     }
 
-    # coefficients
+    # altitude coefficients
     ALTITUDE_A = -4e-15.to_d
     ALTITUDE_B = 4e-10.to_d
     ALTITUDE_C = -3e-5.to_d
     ALTITUDE_D = 1.to_d
 
-    # coefficients
-    HUMIDITY_A = 4e-6.to_d
-    HUMIDITY_B = -0.0004.to_d
-    HUMIDITY_C = 0.0234.to_d
-    HUMIDITY_D = -0.2517.to_d
+    # humidity coefficients
+    VAPOR_A = 4e-6.to_d
+    VAPOR_B = -0.0004.to_d
+    VAPOR_C = 0.0234.to_d
+    VAPOR_D = -0.2517.to_d
 
+    DRY_AIR_INCREASE  = 0.3783.to_d
+    DRY_AIR_REDUCTION = 0.9950.to_d
     RANKLINE_CORRECTION = 459.4.to_d
     TEMP_ALTITUDE_CORRECTION = -0.0036.to_d # degrees per foot
+
+    def self.altitude_factor(altitude)
+      altitude = altitude.to_d
+      1 / (ALTITUDE_A * altitude ** 3 +
+           ALTITUDE_B * altitude ** 2 +
+           ALTITUDE_C * altitude      +
+           ALTITUDE_D)
+    end
+
+    def self.humidity_factor(temp, pressure, humidity)
+      vpw = VAPOR_A * temp ** 3 +
+            VAPOR_B * temp ** 2 +
+            VAPOR_C * temp      +
+            VAPOR_D
+      DRY_AIR_REDUCTION * pressure /
+        (pressure - DRY_AIR_INCREASE * humidity * vpw)
+    end
+
+    def self.pressure_factor(pressure)
+      pressure = pressure.to_d
+      (pressure - ARMY[:pressure]) / ARMY[:pressure]
+    end
+
+    def self.temp_factor(temp, altitude)
+      std_temp = ARMY[:temp] + altitude * TEMP_ALTITUDE_CORRECTION
+      (temp - std_temp) / (RANKLINE_CORRECTION + std_temp)
+    end
 
     attr_reader *ARMY.keys
 
     def initialize(opts = {})
       opts = ARMY.merge(opts)
-      @altitude = opts[:altitude].to_d
-      @humidity = opts[:humidity].to_d
-      @pressure = opts[:pressure].to_d
-      @temp = opts[:temp].to_d
-    end
-
-    def altitude_factor
-      1 / (ALTITUDE_A * @altitude ** 3 +
-           ALTITUDE_B * @altitude ** 2 +
-           ALTITUDE_C * @altitude      +
-           ALTITUDE_D)
-    end
-
-    def humidity_factor
-      vpw = HUMIDITY_A * @temp ** 3 +
-            HUMIDITY_B * @temp ** 2 +
-            HUMIDITY_C * @temp      +
-            HUMIDITY_D
-      0.995.to_d * @pressure / (@pressure - 0.3783.to_d * @humidity * vpw)
-    end
-
-    def pressure_factor
-      (@pressure - ARMY[:pressure]) / ARMY[:pressure]
-    end
-
-    def temp_factor
-      std_temp = ARMY[:temp] + @altitude * TEMP_ALTITUDE_CORRECTION
-      (@temp - std_temp) / (RANKLINE_CORRECTION + std_temp)
+      @altitude = opts[:altitude]
+      @humidity = opts[:humidity]
+      @pressure = opts[:pressure]
+      @temp = opts[:temp]
     end
 
     def translate(ballistic_coefficient)
       ballistic_coefficient.to_d *
-        self.altitude_factor *
-        self.humidity_factor *
-        (1 + self.temp_factor - self.pressure_factor)
+        self.class.altitude_factor(@altitude) *
+        self.class.humidity_factor(@temp, @pressure, @humidity) *
+        (self.class.temp_factor(@temp, @altitude) -
+         self.class.pressure_factor(@pressure) + 1)
     end
   end
 end
