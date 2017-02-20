@@ -9,7 +9,7 @@ module Ballistics
     opts[:wind_speed] ||= 0
     opts[:wind_angle] ||= 0
     opts[:max_range] ||= 500
-    opts[:interval] ||= 1
+    opts[:interval] ||= 25
     opts[:zero_angle] ||= self.zero_angle(opts)
 
     args = [
