@@ -27,7 +27,7 @@ module Ballistics
     atm = opts[:atmosphere]
     args[0] = DRAG_NUM.fetch(args[0])
     args[1] = atm.translate(args[1]) if atm
-
+    p args
     self._map_trajectory(*args)
   end
 
