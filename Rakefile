@@ -6,7 +6,8 @@ begin
   task spec: :test
 
   @test_task = true
-rescue
+rescue Exception => e
+  warn "rspec error: #{e}"
   @test_task = false
 end
 
@@ -20,7 +21,8 @@ begin
   end
 
   @compile_task = true
-rescue
+rescue Exception => e
+  warn "rake-compiler error: #{e}"
   @compile_task = false
 end
 
