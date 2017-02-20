@@ -15,7 +15,7 @@ module Ballistics
       weight.to_d * velocity.to_d ** 2 / (COMBO * 2)
     end
 
-    def self.taylorko(velocity, weight, diameter)
+    def self.taylor_ko(velocity, weight, diameter)
       weight.to_d * velocity.to_d * diameter.to_d / GRAINS
     end
 

@@ -13,7 +13,7 @@ describe Ballistics do
     end
 
     it 'calculates Taylor Knockout values' do
-      expect(Ballistics::Utils.taylorko(800.0, 230, 0.452).round(0)).to eq 12
+      expect(Ballistics::Utils.taylor_ko(800.0, 230, 0.452).round(0)).to eq 12
     end
   end
 
