@@ -35,16 +35,16 @@ module Ballistics
   end
 
   def self.free_recoil(bullet_weight, propellant_weight,
-                       velocity, firearm_weight, propellant_velocity=4000)
+                       velocity, firearm_lbs, propellant_velocity=4000)
     G * recoil_impulse(bullet_weight, propellant_weight,
                        velocity, propellant_velocity) /
-      firearm_weight.to_d
+      firearm_lbs.to_d
   end
 
   def self.recoil_energy(bullet_weight, propellant_weight,
-                         velocity, firearm_weight, propellant_velocity=4000)
+                         velocity, firearm_lbs, propellant_velocity=4000)
     fr = free_recoil(bullet_weight, propellant_weight,
-                     velocity, firearm_weight, propellant_velocity)
-    firearm_weight.to_d * fr ** 2 / (G * 2)
+                     velocity, firearm_lbs, propellant_velocity)
+    firearm_lbs.to_d * fr ** 2 / (G * 2)
   end
 end
