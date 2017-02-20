@@ -1,4 +1,5 @@
 require 'ballistics'
+require 'ballistics/atmosphere'
 
 describe Ballistics do
   let(:atmosphere) do
