@@ -12,6 +12,12 @@ rescue Exception => e
 end
 
 begin
+  # rake-compiler gets upset
+  Rake::FileList.new("ext/ballistics/*.o",
+                     "ext/ballistics/*.so").each { |ofile|
+    File.delete ofile
+  }
+
   gem "rake-compiler"
   require "rake/extensiontask"
 
