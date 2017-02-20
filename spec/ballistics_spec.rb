@@ -6,7 +6,7 @@ describe Ballistics do
     Ballistics::Atmosphere.new(altitude: 5430,
                                humidity: 0.48,
                                pressure: 29.93,
-                               temperature: 40)
+                               temp: 40)
   end
 
   let(:zero_options) do
