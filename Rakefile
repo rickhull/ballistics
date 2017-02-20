@@ -1,4 +1,16 @@
 begin
+  gem "rspec"
+
+  desc "Run rspec tests"
+  task :test do sh "rspec -I lib spec" end
+  task spec: :test
+
+  @test_task = true
+rescue
+  @test_task = false
+end
+
+begin
   gem "rake-compiler"
   require "rake/extensiontask"
 
@@ -6,11 +18,16 @@ begin
     ext.lib_dir = "lib"
     ext.ext_dir = "ext/ballistics"
   end
+
+  @compile_task = true
 rescue
-  nil
+  @compile_task = false
 end
 
-desc "Run rspec tests"
-task :test do
-  sh "rspec -I lib spec"
+if @test_task and @compile_task
+  desc "clobber, compile, test"
+  task rebuild: [:clobber, :compile, :test]
+  task default: :rebuild
+elsif @test_task
+  task default: :test
 end
