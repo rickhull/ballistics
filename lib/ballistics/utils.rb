@@ -8,13 +8,14 @@ module Ballistics
   # caliber in inches
 
   GRAINS_PER_LB = 7000.to_d
-  G = 32.175.to_d    # gravitational acceleration, feet / s^2
+  G = 32.175.to_d            # gravitational acceleration
 
   # Sectional density, according to the SpeerReloading Manual No. 13,
   # is defined as: "A bullet's weight in pounds divided by the square of
   # its diameter in inches." Note that SD is independent of a bullet's
   # shape. All bullets of the same caliber and weight will have the same
   # SD, regardless of their shape or composition.
+  #
   def self.sectional_density(weight, caliber)
     (weight.to_d / GRAINS_PER_LB) / caliber.to_d ** 2
   end
