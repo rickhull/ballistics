@@ -99,6 +99,9 @@ VALUE method_trajectory(VALUE self, VALUE drag_function,
   return result_array;
 }
 
+// i.e.
+// module Ballistics::Ext
+//   def self.zero_angle ...
 void Init_ext() {
   VALUE cBallistics;
   VALUE cExt;
