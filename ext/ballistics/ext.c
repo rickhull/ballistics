@@ -5,12 +5,12 @@
 // module Ballistics::Ext
 //   def self.zero_angle ...
 void Init_ext() {
-
   VALUE method_zero_angle(VALUE self, VALUE drag_function,
                           VALUE drag_coefficient, VALUE velocity,
                           VALUE sight_height, VALUE zero_range,
                           VALUE y_intercept) {
-    double angle =  ZeroAngle(FIX2INT(drag_function), NUM2DBL(drag_coefficient),
+    double angle =  ZeroAngle(FIX2INT(drag_function),
+                              NUM2DBL(drag_coefficient),
                               NUM2DBL(velocity), NUM2DBL(sight_height),
                               NUM2DBL(zero_range), NUM2DBL(y_intercept));
     return rb_float_new(angle);
@@ -58,7 +58,6 @@ void Init_ext() {
 
     y=-SightHeight/12;
 
-
     for (t=0;;t=t+dt){
 
       vx1=vx, vy1=vy;
@@ -80,15 +79,22 @@ void Init_ext() {
       if (yards>=n){
         if (yards % Interval == 0){
           VALUE entry = rb_hash_new();
-          double windage_value = Windage(crosswind,Vi,x,t+dt);
-          double moa_windage_value = windage_value / ((yards / 100.0) * 1.0465);
-          rb_hash_aset(entry, rb_str_new2("range"), rb_float_new((int)(yards)));
-          rb_hash_aset(entry, rb_str_new2("path"), rb_float_new(y*12));
-          rb_hash_aset(entry, rb_str_new2("moa_correction"), rb_float_new(-RadtoMOA(atan(y/x))));
-          rb_hash_aset(entry, rb_str_new2("time"), rb_float_new(t+dt));
-          rb_hash_aset(entry, rb_str_new2("windage"), rb_float_new(windage_value));
-          rb_hash_aset(entry, rb_str_new2("moa_windage"), rb_float_new(moa_windage_value));
-          rb_hash_aset(entry, rb_str_new2("velocity"), rb_float_new(v));
+          double windage = Windage(crosswind,Vi,x,t+dt);
+          double moa_windage = windage / ((yards / 100.0) * 1.0465);
+          rb_hash_aset(entry, rb_str_new2("range"),
+                       rb_float_new((int)(yards)));
+          rb_hash_aset(entry, rb_str_new2("path"),
+                       rb_float_new(y*12));
+          rb_hash_aset(entry, rb_str_new2("moa_correction"),
+                       rb_float_new(-RadtoMOA(atan(y/x))));
+          rb_hash_aset(entry, rb_str_new2("time"),
+                       rb_float_new(t+dt));
+          rb_hash_aset(entry, rb_str_new2("windage"),
+                       rb_float_new(windage));
+          rb_hash_aset(entry, rb_str_new2("moa_windage"),
+                       rb_float_new(moa_windage));
+          rb_hash_aset(entry, rb_str_new2("velocity"),
+                       rb_float_new(v));
           rb_ary_push(result_array, entry);
         }
         n++;
