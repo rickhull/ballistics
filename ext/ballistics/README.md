@@ -66,3 +66,10 @@ rake -T
 ```shell
 rake rebuild
 ```
+
+# The Extension
+
+The extension is defined in `ext.c`, which defines a function `Init_ext` (in
+accordance with `extconf.rb` naming its target `ballistics/ext`).  `Init_ext`
+creates the `Ballistics::Ext` module, which can be accessed from Ruby.  This
+extension is written so that the C parts live inside `Ballistics::Ext`.
