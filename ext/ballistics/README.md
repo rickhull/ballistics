@@ -30,24 +30,39 @@ C code.
 cd ext/ballistics
 ```
 
+Choose between Makefile and Rakefile below.  Rakefile is much preferred.
+Makefile is included mostly for illustrative purposes.
+
 ## Makefile
+
+### Create Makefile
 
 ```shell
 ruby extconf.rb
+```
 
-# creates Makefile
+### Compile Object Files
 
+```shell
 make
-
-# creates gnu_ballistics.o ext.o ext.so
 ```
 
 ## Rakefile
 
+### Prereqs
+
 ```shell
 gem install rake-compiler rspec # sudo as nec
+```
 
+### Show Tasks
+
+```shell
 rake -T
+```
 
+### Build and Test
+
+```shell
 rake rebuild
 ```
