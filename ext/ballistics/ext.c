@@ -29,9 +29,6 @@ VALUE method_trajectory(VALUE self, VALUE drag_function,
   int    MaxRange = FIX2INT(max_range);
   int    Interval = FIX2INT(interval);
 
-  /* create ruby objects */
-  VALUE result_array = rb_ary_new2(MaxRange);
-
   double t=0;
   double dt=0.5/Vi;
   double v=0;
@@ -45,13 +42,18 @@ VALUE method_trajectory(VALUE self, VALUE drag_function,
   double Gy=GRAVITY*cos(DegtoRad((ShootingAngle + ZAngle)));
   double Gx=GRAVITY*sin(DegtoRad((ShootingAngle + ZAngle)));
 
+  int n=0;
+  int yards=0;
+
+  /* create ruby objects */
+  VALUE result_array = rb_ary_new2(MaxRange);
+
   vx=Vi*cos(DegtoRad(ZAngle));
   vy=Vi*sin(DegtoRad(ZAngle));
 
   y=-SightHeight/12;
 
 
-  int n=0;
   for (t=0;;t=t+dt){
 
     vx1=vx, vy1=vy;
@@ -69,7 +71,7 @@ VALUE method_trajectory(VALUE self, VALUE drag_function,
 
 
 
-    int yards = (x/3);
+    yards = (x/3);
     if (yards>=n){
       if (yards % Interval == 0){
         VALUE entry = rb_hash_new();
