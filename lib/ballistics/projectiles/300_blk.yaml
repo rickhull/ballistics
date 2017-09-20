@@ -1,0 +1,321 @@
+# MANDATORY
+# $id:
+#   name:
+#   cal:
+#   grains:
+# AT LEAST ONE OF
+#   g1:
+#   g7:
+# OPTIONAL
+#   desc:
+#   intended: # e.g. 300 BLK
+#   base: flat|boat
+#   sd:
+
+# FLAT BASE INTENDED FOR 300 BLK
+
+barnes_90_otfb:
+  name: Barnes 90gr Zinc OTFB
+  cal: .308
+  grains: 90
+  g1: .246
+  intended: 300 BLK
+  base: flat
+  desc: Open tip, copper jacket, zinc core
+
+barnes_110_tac_tx_300_blk:
+  name: Barnes 110gr TAC-TX 300 BLK
+  cal: .308
+  grains: 110
+  g1: .289
+  sd: .166
+  intended: 300 BLK
+  base: flat
+  desc: Black polymer tip, copper bullet
+
+hornady_110_v_max_black:
+  name: Hornady 110gr V-MAX BLACK
+  cal: .308
+  grains: 110
+  g1: .290
+  sd: .166
+  intended: 300 BLK
+  base: flat
+  desc: Red polymer tip, copper jacket, lead core
+
+remington_120_umc_otfb:
+  name: Remington 120gr UMC OTFB
+  cal: .308
+  grains: 120
+  g1: .297
+  intended: 300 BLK
+  base: flat
+  desc: Copper jacket, lead core
+
+hornady_125_hp_match:
+  name: Hornady 125gr HP Match
+  cal: .308
+  grains: 125
+  g1: .320
+  sd: .128
+  intended: 300 BLK
+  base: flat
+  desc: Open tip, copper jacket, lead core
+
+sierra_125_mk:
+  name: Sierra 125gr MatchKing OTFB
+  cal: .308
+  grains: 125
+  g1: .330
+  sd: .188
+  intended: 300 BLK
+  base: flat
+  desc: Open tip, copper jacket, lead core
+
+sierra_125_tmk:
+  name: Sierra 125gr Tipped MatchKing
+  cal: .308
+  grains: 125
+  g1: .332
+  sd: .188
+  intended: 300 BLK
+  base: flat
+  desc: Green polymer tip, copper jacket, lead core
+
+hornady_135_ftx:
+  name: Hornady 135gr FTX
+  cal: .308
+  grains: 135
+  g1: .274
+  sd: .203
+  intended: 300 BLK
+  base: flat
+  desc: Red polymer tip, copper jacket, lead core with InterLock
+
+hornady_208_a_max_black:
+  name: Hornady 208gr A-MAX BLACK
+  cal: .308
+  grains: 208
+  g1: .648
+  sd: .313
+  intended: 300 BLK
+  base: flat
+  desc: Red polymer tip, copper jacket, lead core
+
+remington_220_umc_otfb:
+  name: Remington UMC 220gr OTFB
+  cal: .308
+  grains: 220
+  g1: 0.680 # best guess, based on Rem 220gr OTFB
+  sd: 0.331 # best guess, based on 220gr SMK
+  intended: 300 BLK
+  base: flat
+  desc: Open tip, copper jacket, lead core
+
+remington_220_otfb:
+  name: Remington 220gr Open Tip Flat Base
+  cal: .308
+  grains: 220
+  g1: .680
+  sd: 0.331 # best guess, based on 220gr SMK
+  intended: 300 BLK
+  base: flat
+  desc: Open tip, copper jacket, lead core
+
+# OTHER FLAT BASE
+
+# Note, Barnes TAC-TX is essentially identical to TTSX -- just a rebranding
+# with restricted choices appropriate to Mil/LE rifles
+barnes_110_tac_tx:
+  name: Barnes 110gr TAC-TX 30 CAL
+  cal: .308
+  grains: 110
+  g1: .295
+  sd: .166
+  base: flat
+  desc: Blue polymer tip, copper bullet, general 30 cal
+
+# Note, Barnes TAC-X is essentially identical to TSX -- just a rebranding
+# with restricted choices appropriate to Mil/LE rifles
+barnes_110_tac_x:
+  name: Barnes 110gr TAC X
+  cal: .308
+  grains: 110
+  g1: .264
+  sd: .166
+  base: flat
+  desc: All copper
+
+barnes_110_tsx:
+  name: Barnes 110gr TSX
+  cal: .308
+  grains: 110
+  g1: .264
+  sd: .166
+  base: flat
+  desc: All copper
+
+barnes_110_ttsx:
+  name: Barnes 110gr TTSX
+  cal: .308
+  grains: 110
+  g1: .295
+  sd: .166
+  base: flat
+  desc: Blue polymer tip, copper bullet
+
+sierra_110_fmj:
+  name: Sierra 110gr FMJ
+  cal: .308
+  grains: 110
+  g1: .170
+  sd: .166
+  intended: M1 Carbine
+  base: flat
+  desc: Copper jacket, lead core
+
+sierra_110_hp:
+  name: Sierra 110gr HP
+  cal: .308
+  grains: 110
+  g1: .204
+  sd: .166
+  base: flat
+  desc: Hollow point, copper jacket, lead core, high accuracy
+
+sierra_110_rn:
+  name: Sierra 110gr RN
+  cal: .308
+  grains: 110
+  g1: .170
+  sd: .166
+  intended: M1 Carbine
+  base: flat
+  desc: Round lead nose, copper jacket, lead core, expands at low velocity
+
+berger_115_fb:
+  name: Berger 115gr FB Target
+  cal: .308
+  grains: 115
+  g1: .289
+  base: flat
+  desc: Copper jacket, lead core, 1:19 twist
+
+sierra_125_spt:
+  name: Sierra 125gr SPT
+  cal: .308
+  grains: 125
+  g1: .264
+  sd: .188
+  base: flat
+  desc: Copper jacket, lead core, spitzer, intended for hunting
+
+sierra_135_hp:
+  name: Sierra 135gr HP Varminter
+  cal: .308
+  grains: 135
+  g1: .275
+  sd: .203
+  base: flat
+  desc: Hollow point, copper jacket, lead core, 300 BLK compatible
+
+barnes_150_tac_rrlp:
+  name: Barnes 150gr TAC RRLP
+  cal: .308
+  grains: 150
+  g1: .357
+  sd: .226
+  base: flat
+  desc: Frangible; Reduced Ricochet Limited Penetration
+
+sierra_150_spt:
+  name: Sierra 150gr SPT
+  cal: .308
+  grains: 150
+  g1: .360
+  sd: .226
+  base: flat
+  desc: Copper jacket, lead core, spitzer, intended for hunting
+
+sierra_150_rn:
+  name: Sierra 150gr RN
+  cal: .308
+  grains: 150
+  g1: .270
+  sd: .226
+  base: flat
+  desc: Round lead nose, copper jacket, lead core, accurate short range hunting
+
+#
+# BOAT TAILS
+#
+
+hornady_110_gmx:
+  name: Hornady 110gr GMX
+  intended: 300 BLK
+  cal: .308
+  grains: 110
+  g1: .305
+  sd: .166
+  base: boat
+  desc: Red polymer tip, copper alloy bullet, very short boat tail
+  # g7: TODO
+
+barnes_120_tac_tx:
+  name: Barnes 120gr TAC-TX
+  cal: .308
+  grains: 120
+  g1: .358
+  sd: .181
+  base: boat
+  desc: Black polymer tip, copper bullet
+  # g7: TODO
+
+barnes_130_tsx:
+  name: Barnes 130gr TSX
+  cal: .308
+  grains: 130
+  g1: .340
+  sd: .196
+  base: boat
+  desc: All copper
+  # g7: TODO
+
+barnes_130_ttsx:
+  name: Barnes 130gr TTSX
+  cal: .308
+  grains: 130
+  g1: .350
+  sd: .196
+  base: boat
+  desc: Blue polymer tip, copper bullet
+  # g7: TODO
+
+barnes_150_tsx:
+  name: Barnes 150gr TSX
+  cal: .308
+  grains: 150
+  g1: .369
+  sd: .226
+  base: boat
+  desc: All copper
+
+barnes_150_ttsx:
+  name: Barnes 150gr TTSX
+  cal: .308
+  grains: 150
+  g1: .420
+  sd: .226
+  base: boat
+  desc: Blue polymer tip, copper bullet
+  # g7: TODO
+
+sierra_220_hpbt_mk:
+  name: Sierra 220gr
+  cal: .308
+  grains: 220
+  g1: .608
+  sd: .331
+  base: boat
+  desc: Open tip, copper jacket, lead core
+  # g7: TODO

@@ -1,0 +1,158 @@
+# MANDATORY
+# $id:
+#   name:
+#   case:
+#   projectile: # ref to projectiles.yaml
+# AT LEAST ONE OF
+#   16_inch_fps:
+#   20_inch_fps:
+#   24_inch_fps:
+# OPTIONAL
+#   desc:
+#   powder_type:
+#   powder_grains:
+#   $n_inch_fps:
+
+# FLAT BASE PROJECTILES
+
+barnes_90_range_ar:
+  name: Barnes 300 BLK 90gr Range AR (90gr OTFB)
+  case: 300 BLK
+  projectile: barnes_90_otfb
+  16_inch_fps: 2550
+  desc: Target, training, competition
+
+barnes_110_vor_tx:
+  name: Barnes 300 BLK 110gr VOR-TX
+  case: 300 BLK
+  projectile: barnes_110_tac_tx_300_blk
+  16_inch_fps: 2350
+  10_inch_fps: 2180
+  desc: Hunting round for penetration and expansion
+
+hornady_110_v_max_black:
+  name: Hornady 300 BLK 110gr V-MAX BLACK
+  case: 300 BLK
+  projectile: hornady_110_v_max_black
+  16_inch_fps: 2375
+  10_inch_fps: 2250
+  desc: Varmint round for a black rifle
+
+hpr_110_tac_tx:
+  name: HPR 300 BLK 110gr TAC-TX
+  case: 300 BLK
+  projectile: barnes_110_tac_tx_300_blk
+  10_inch_fps: 2170
+  desc: Accurate and consistent load
+
+wilson_110_tac_tx:
+  name: Wilson Combat 300 BLK 110gr TAC-TX
+  case: 300 BLK
+  projectile: barnes_110_tac_tx_300_blk
+  10_inch_fps: 2240
+  16_inch_fps: 2400
+  desc: Fast, accurate, and consistent load
+
+remington_120_umc_otfb:
+  name: Remington 300 BLK 120gr UMC OTFB
+  case: 300 BLK
+  projectile: remington_120_umc_otfb
+  16_inch_fps: 2200
+  11_inch_fps: 2080
+  9_inch_fps: 2000
+  desc: Value ammo
+
+hornady_125_hp:
+  name: Hornady 300 BLK 125gr HP American Gunner
+  case: 300 BLK
+  projectile: hornady_125_hp_match
+  24_inch_fps: 2175
+  desc: Target, hunting, self defense
+
+remington_125_premier_mkfb:
+  name: Remington Premier Match 300 BLK 125gr MatchKing Flat Base
+  case: 300 BLK
+  projectile: sierra_125_mk
+  16_inch_fps: 2215
+  desc: Match ammo
+
+hornady_135_ftx:
+  name: Hornady 300 BLK 135gr FTX
+  case: 300 BLK
+  projectile: hornady_135_ftx
+  24_inch_fps: 2085
+  desc: Expanding round for hunting, personal defense
+
+hornady_208_a_max_black:
+  name: Hornady 300 BLK 208gr A-MAX BLACK
+  case: 300 BLK
+  projectile: hornady_208_a_max_black
+  16_inch_fps: 1020
+  10_inch_fps: 915
+  desc: Optimized for accuracy in a black rifle
+
+remington_220_umc_otfb:
+  name: Remington 300 BLK 220gr UMC OTFB
+  case: 300 BLK
+  projectile: remington_220_umc_otfb
+  16_inch_fps: 1050
+  10_inch_fps: 1005
+  desc: Value / training round
+
+remington_220_high_perf_otfb:
+  name: Remington 300 BLK 220gr High Performance OTFB
+  case: 300 BLK
+  projectile: remington_220_otfb
+  16_inch_fps: 1015
+  desc: Match style round
+
+# BOAT TAIL PROJECTILES
+
+hornady_110_gmx:
+  name: Hornady 300 BLK 110gr GMX Full Boar
+  case: 300 BLK
+  projectile: hornady_110_gmx
+  24_inch_fps: 2350
+  desc: Penetrating hunting round
+
+barnes_120_vor_tx:
+  name: Barnes 300 BLK 120gr VOR-TX
+  case: 300 BLK
+  projectile: barnes_120_tac_tx
+  16_inch_fps: 2150
+  desc: Hunting round for penetration and expansion
+
+remington_130_hog_hammer:
+  name: Remington 300 BLK 130gr Hog Hammer
+  case: 300 BLK
+  projectile: barnes_130_tsx
+  24_inch_fps: 2075
+  desc: Hog hunting round for penetration and expansion
+
+remington_130_htp:
+  name: Remington 300 BLK 130gr HTP
+  case: 300 BLK
+  projectile: barnes_130_tsx
+  16_inch_fps: 2075
+  desc: Hunting round for penetration and expansion
+
+remington_220_premier_mkbthp:
+  name: Remington 300 BLK 220gr Premier Match SMK
+  case: 300 BLK
+  projectile: sierra_220_hpbt_mk
+  16_inch_fps: 1015
+  desc: Match round
+
+silencerco_220_smk:
+  name: SilencerCo 300 BLK 220gr Sierra MatchKing
+  case: 300 BLK
+  projectile: sierra_220_hpbt_mk
+  16_inch_fps: 1030
+  desc: Match round
+
+wilson_220_smk:
+  name: Wilson 300 BLK 220gr Sierra MatchKing
+  case: 300 BLK
+  projectile: sierra_220_hpbt_mk
+  16_inch_fps: 1025
+  desc: Match round with factory new Remington 300 BLK case
