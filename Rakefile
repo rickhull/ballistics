@@ -2,12 +2,27 @@ begin
   gem "rspec"
 
   desc "Run rspec tests"
-  task :test do sh "rspec -I lib spec" end
-  task spec: :test
+  task :spec do
+    sh "rspec -Ilib spec"
+  end
+
+  @spec_task = true
+rescue Exception => e
+  warn "rspec error: #{e}"
+  @spec_task = false
+end
+
+begin
+  require "rake/testtask"
+
+  Rake::TestTask.new do |t|
+    t.test_files = FileList['test/**/*.rb']
+  end
+  desc "Run minitest tests"
 
   @test_task = true
 rescue Exception => e
-  warn "rspec error: #{e}"
+  warn "testtask error: #{e}"
   @test_task = false
 end
 
@@ -26,10 +41,21 @@ rescue Exception => e
   @compile_task = false
 end
 
-if @test_task and @compile_task
-  desc "clobber, compile, test"
-  task rebuild: [:clobber, :compile, :test]
-  task default: :rebuild
+@no_tests = false
+if @test_task and @spec_task
+  task default: [:test, :spec]
 elsif @test_task
   task default: :test
+elsif @spec_task
+  task default: :spec
+else
+  @no_tests = true
+end
+
+if @compile_task and @no_tests
+  desc "clobber and compile"
+  task rebuild: [:clobber, :compile]
+elsif @compile_task
+  desc "clobber, compile, test"
+  task rebuild: [:clobber, :compile, :default]
 end
