@@ -38,7 +38,7 @@ module Ballistics
       :max_range,         # yards, e.g. 500
       :interval,          # yards, e.g. 100
     ].map { |param| opts.fetch(param) }
-    args[0] = DRAG_NUM.fetch(args[0])
+    args[0] = DRAG_NUM.fetch(args[0].upcase)
     atm = opts[:atmosphere]
     args[1] = atm.translate(args[1]) if atm
 
@@ -57,7 +57,7 @@ module Ballistics
       :zero_range,                # yards, e.g. 100
       :y_intercept,               # typically zero
     ].map { |param| opts.fetch(param) }
-    args[0] = DRAG_NUM.fetch(args[0])
+    args[0] = DRAG_NUM.fetch(args[0].upcase)
     atm = opts[:atmosphere]
     args[1] = atm.translate(args[1]) if atm
 
