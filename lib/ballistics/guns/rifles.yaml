@@ -1,19 +1,34 @@
 ar15_carbine:
+  name: Standard AR-15 carbine with 16 inch barrel (5.56)
   sight_height: 2.6
   barrel_length: 16
   zero_range: 50
+  chamber: 5.56
 
 m4:
+  name: Standard M4 carbine with 14.5 inch barrel (5.56)
   sight_height: 2.6
   barrel_length: 14.5
   zero_range: 50
+  chamber: 5.56
 
 m16:
+  name: Standard M16 rifle with 20 inch barrel (5.56)
   sight_height: 2.6
   barrel_length: 20
   zero_range: 100
+  chamber: 5.56
 
 ar15_sbr:
+  name: AR-15 SBR with 10.5 inch barrel (5.56)
   sight_height: 2.6
   barrel_length: 10.5
   zero_range: 50
+  chamber: 5.56
+
+ar15_300_blk:
+  name: AR-15 with 10.5 inch barrel (300 BLK)
+  sight_height: 2.6
+  barrel_length: 10.5
+  zero_range: 50
+  chamber: 300 BLK
