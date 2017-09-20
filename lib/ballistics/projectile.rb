@@ -31,7 +31,7 @@ class Ballistics::Projectile
   # Normalize common flat-base and boat-tail terms to flat or boat
   #
   def self.base(candidate)
-    c = candidate.to_s.downcase.gsub /[\-\_ ]/, ''
+    c = candidate.to_s.downcase.gsub(/[\-\_ ]/, '')
     case c
     when "boat", "boattail", "bt"
       "boat"
@@ -42,9 +42,9 @@ class Ballistics::Projectile
     end
   end
 
-  attr_reader *MANDATORY.keys
-  attr_reader *BALLISTIC_COEFFICIENT.keys
-  attr_reader *OPTIONAL.keys
+  attr_reader(*MANDATORY.keys)
+  attr_reader(*BALLISTIC_COEFFICIENT.keys)
+  attr_reader(*OPTIONAL.keys)
   attr_reader :ballistic_coefficient, :yaml_data, :extra
 
   def initialize(hsh)
