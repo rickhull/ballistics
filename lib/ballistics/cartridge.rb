@@ -1,5 +1,4 @@
 require 'ballistics/yaml'
-# require 'ballistics/projectile'
 
 class Ballistics::Cartridge
   MANDATORY = {
@@ -13,6 +12,9 @@ class Ballistics::Cartridge
     "powder_type" => :string,
   }
 
+  # Load a YAML file and instantiate cartridge objects
+  # Return a hash of cartridge objects keyed by the cartridge id as in the YAML
+  #
   def self.load(filename)
     objects = {}
     Ballistics.load_yaml(filename, 'cartridges').each { |id, hsh|
@@ -21,6 +23,11 @@ class Ballistics::Cartridge
     objects
   end
 
+  # This is a helper method to perform loading of cartridges and projectiles
+  # and to perform the cross ref.  This works only with built in cartridge and
+  # projectile data.  To do this for user-supplied data files, the user should
+  # perform the cross_ref explicitly
+  #
   def self.load_projectiles(chamber)
     require 'ballistics/projectile'
 
@@ -30,6 +37,14 @@ class Ballistics::Cartridge
     cartridges
   end
 
+  # A cartridge object starts with a string identifier for its projectile
+  # Given a hash of cartridge objects (keyed by cartridge id)
+  #   and a hash of projectile objects (keyed by projectile id)
+  #   Set the cartridge's projectile to the projectile object identified
+  #   by the string value
+  # The cartridge objects in the cartridges hash are updated in place
+  # The return value reports what was updated
+  #
   def self.cross_ref(cartridges, projectiles)
     retval = {}
     cartridges.values.each { |c|
@@ -50,6 +65,7 @@ class Ballistics::Cartridge
     retval
   end
 
+  # match and extract e.g. "16" from "16_inch_fps"
   BARREL_LENGTH_REGEX = /([0-9]+)_inch_fps/i
 
   attr_reader *MANDATORY.keys
@@ -64,6 +80,7 @@ class Ballistics::Cartridge
       Ballistics.check_type!(val, type)
       self.instance_variable_set("@#{name}", val)
     }
+
     OPTIONAL.each { |name, type|
       if hsh.key?(name)
         val = hsh[name]
@@ -71,10 +88,14 @@ class Ballistics::Cartridge
         self.instance_variable_set("@#{name}", val)
       end
     }
+
+    # Keep track of fields that we don't expect
     @extra = {}
     (hsh.keys - MANDATORY.keys - OPTIONAL.keys).each { |k| @extra[k] = hsh[k] }
 
-    # extract muzzle velocities per barrel length
+    # Extract muzzle velocities per barrel length and remove from @extra
+    # We need at least one
+    #
     @muzzle_velocity = {}
     extracted = []
     @extra.each { |key, val|

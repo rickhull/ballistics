@@ -17,6 +17,9 @@ class Ballistics::Projectile
     "desc"     => :string,
   }
 
+  # Load a YAML file and instantiate projectile objects
+  # Return a hash of projectile objects keyed by projectile id (per the YAML)
+  #
   def self.load(filename)
     objects = {}
     Ballistics.load_yaml(filename, 'projectiles').each { |id, hsh|
@@ -25,6 +28,8 @@ class Ballistics::Projectile
     objects
   end
 
+  # Normalize common flat-base and boat-tail terms to flat or boat
+  #
   def self.base(candidate)
     c = candidate.to_s.downcase
     case c
@@ -51,6 +56,10 @@ class Ballistics::Projectile
       Ballistics.check_type!(val, type)
       self.instance_variable_set("@#{field}", val)
     }
+
+    # Extract ballistic coefficients per drag model (e.g. G1)
+    # We need at least one
+    #
     @ballistic_coefficient = {}
     BALLISTIC_COEFFICIENT.each { |field, type|
       if hsh.key?(field)
@@ -73,7 +82,12 @@ class Ballistics::Projectile
         end
       end
     }
+
+    # Keep track of fields that we don't expect
     @extra = {}
-    (hsh.keys - MANDATORY.keys - BALLISTIC_COEFFICIENT.keys - OPTIONAL.keys).each { |k| @extra[k] = hsh[k] }
+    (hsh.keys -
+     MANDATORY.keys -
+     BALLISTIC_COEFFICIENT.keys -
+     OPTIONAL.keys).each { |k| @extra[k] = hsh[k] }
   end
 end
