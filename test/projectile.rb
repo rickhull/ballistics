@@ -3,20 +3,23 @@ require 'ballistics/projectile'
 
 describe Ballistics::Projectile do
   P = Ballistics::Projectile
-  TEST_DATA = {
-    "name" => "Test Projectile",
-    "cal" => 1.0,
-    "grains" => 100,
-    "g1" => 1.0,
-    "sd" => 1.0,
-    "intended" => "test purposes",
-    "base" => "flat",
-    "desc" => "Test Projectile for test purposes",
-  }
-  EXTRA_DATA = {
-    "foo" => "bar",
-  }
 
+  before do
+    @test_data = {
+      "name" => "Test Projectile",
+      "cal" => 1.0,
+      "grains" => 100,
+      "g1" => 1.0,
+      "sd" => 1.0,
+      "intended" => "test purposes",
+      "base" => "flat",
+      "desc" => "Test Projectile for test purposes",
+    }
+
+    @extra_data = {
+      "foo" => "bar",
+    }
+  end
 
   describe "base" do
     it "must normalize common base specifiers" do
@@ -44,23 +47,23 @@ describe Ballistics::Projectile do
 
   describe "new instance" do
     before do
-      @prj = P.new(TEST_DATA)
-      @prj_ex = P.new(TEST_DATA.merge(EXTRA_DATA))
+      @prj = P.new(@test_data)
+      @prj_ex = P.new(@test_data.merge(@extra_data))
     end
 
     it "must have a name" do
       @prj.name.wont_be_nil
-      @prj.name.must_equal TEST_DATA["name"]
+      @prj.name.must_equal @test_data["name"]
     end
 
     it "must have a caliber" do
       @prj.cal.wont_be_nil
-      @prj.cal.must_equal TEST_DATA["cal"]
+      @prj.cal.must_equal @test_data["cal"]
     end
 
     it "must have grains" do
       @prj.grains.wont_be_nil
-      @prj.grains.must_equal TEST_DATA["grains"]
+      @prj.grains.must_equal @test_data["grains"]
     end
 
     it "must have a ballistic coefficient" do
@@ -69,7 +72,7 @@ describe Ballistics::Projectile do
       bc.must_be_kind_of Hash
       bc.wont_be_empty
       ["g1", "g7"].each { |drag_model|
-        test_bc = TEST_DATA[drag_model]
+        test_bc = @test_data[drag_model]
         if test_bc
           bc[drag_model].must_equal test_bc
           @prj.send(drag_model).must_equal test_bc
@@ -82,19 +85,19 @@ describe Ballistics::Projectile do
 
     it "must accept optional fields" do
       P::OPTIONAL.keys.each { |k|
-        @prj.send(k).must_equal TEST_DATA[k]
+        @prj.send(k).must_equal @test_data[k]
       }
     end
 
     it "must retain initializing data" do
-      @prj.yaml_data.must_equal TEST_DATA
-      @prj_ex.yaml_data.must_equal TEST_DATA.merge(EXTRA_DATA)
+      @prj.yaml_data.must_equal @test_data
+      @prj_ex.yaml_data.must_equal @test_data.merge(@extra_data)
     end
 
     it "must retain extra data" do
       @prj.extra.must_be_empty
       @prj_ex.extra.wont_be_empty
-      @prj_ex.extra.must_equal EXTRA_DATA
+      @prj_ex.extra.must_equal @extra_data
     end
   end
 end
