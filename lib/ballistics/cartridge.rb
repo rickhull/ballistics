@@ -55,7 +55,6 @@ class Ballistics::Cartridge
   attr_writer :projectile
 
   def initialize(hsh)
-    p hsh
     @yaml = hsh
     MANDATORY.each { |name, type|
       val = hsh.fetch(name)
