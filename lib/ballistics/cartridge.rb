@@ -68,8 +68,8 @@ class Ballistics::Cartridge
   # match and extract e.g. "16" from "16_inch_fps"
   BARREL_LENGTH_REGEX = /([0-9]+)_inch_fps/i
 
-  attr_reader *MANDATORY.keys
-  attr_reader *OPTIONAL.keys
+  attr_reader(*MANDATORY.keys)
+  attr_reader(*OPTIONAL.keys)
   attr_reader :muzzle_velocity, :yaml_data, :extra
   attr_writer :projectile
 
