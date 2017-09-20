@@ -42,7 +42,7 @@ class Ballistics::Projectile
   attr_reader *MANDATORY.keys
   attr_reader *BALLISTIC_COEFFICIENT.keys
   attr_reader *OPTIONAL.keys
-  attr_reader :yaml
+  attr_reader :ballistic_coefficient, :yaml, :extra
 
   def initialize(hsh)
     @yaml = hsh
@@ -51,16 +51,16 @@ class Ballistics::Projectile
       Ballistics.check_type!(val, type)
       self.instance_variable_set("@#{name}", val)
     }
-    bc_ok = false
+    @ballistic_coefficient = {}
     BALLISTIC_COEFFICIENT.each { |name, type|
       if hsh.key?(name)
         val = hsh[name]
         Ballistics.check_type!(val, type)
         self.instance_variable_set("@#{name}", val)
-        bc_ok = true
+        @ballistic_coefficient[name] = val
       end
     }
-    raise "no valid BC" unless bc_ok
+    raise "no valid BC" if @ballistic_coefficient.empty?
     OPTIONAL.each { |name, type|
       if hsh.key?(name)
         val = hsh[name]
