@@ -75,17 +75,17 @@ class Ballistics::Cartridge
 
   def initialize(hsh)
     @yaml_data = hsh
-    MANDATORY.each { |name, type|
-      val = hsh.fetch(name)
+    MANDATORY.each { |field, type|
+      val = hsh.fetch(field)
       Ballistics.check_type!(val, type)
-      self.instance_variable_set("@#{name}", val)
+      self.instance_variable_set("@#{field}", val)
     }
 
-    OPTIONAL.each { |name, type|
-      if hsh.key?(name)
-        val = hsh[name]
+    OPTIONAL.each { |field, type|
+      if hsh.key?(field)
+        val = hsh[field]
         Ballistics.check_type!(val, type)
-        self.instance_variable_set("@#{name}", val)
+        self.instance_variable_set("@#{field}", val)
       end
     }
 
