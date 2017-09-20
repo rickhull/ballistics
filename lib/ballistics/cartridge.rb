@@ -7,11 +7,6 @@ class Ballistics::Cartridge
     "case" => :string,
     "projectile" => :reference,
   }
-  MUZZLE_VELOCITY = {
-    "16_inch_fps" => :count,
-    "20_inch_fps" => :count,
-    "24_inch_fps" => :count,
-  }
   OPTIONAL = {
     "desc" => :string,
     "powder_grains" => :float,
@@ -26,6 +21,15 @@ class Ballistics::Cartridge
     objects
   end
 
+  def self.load_projectiles(chamber)
+    require 'ballistics/projectile'
+
+    cartridges = self.load(chamber)
+    projectiles = Ballistics::Projectile.load(chamber)
+    self.cross_ref(cartridges, projectiles)
+    cartridges
+  end
+
   def self.cross_ref(cartridges, projectiles)
     retval = {}
     cartridges.values.each { |c|
@@ -36,6 +40,8 @@ class Ballistics::Cartridge
           c.projectile = proj
           retval[:updated] ||= []
           retval[:updated] << proj_id
+        else
+          warn "#{proj_id} not found in projectiles"
         end
       else
         warn "c.projectile is not a string"
@@ -44,10 +50,7 @@ class Ballistics::Cartridge
     retval
   end
 
-  def self.barrel_length(mv_name)
-    matches = mv_name.match /([0-9.]+)_inch_fps/i
-    matches[1] or raise("can't determine barrel length from: #{mv_name}")
-  end
+  BARREL_LENGTH_REGEX = /([0-9]+)_inch_fps/i
 
   attr_reader *MANDATORY.keys
   attr_reader *OPTIONAL.keys
@@ -61,16 +64,6 @@ class Ballistics::Cartridge
       Ballistics.check_type!(val, type)
       self.instance_variable_set("@#{name}", val)
     }
-    @muzzle_velocity = {}
-    MUZZLE_VELOCITY.each { |name, type|
-      if hsh.key?(name)
-        val = hsh[name]
-        barrel = self.class.barrel_length(name)
-        Ballistics.check_type!(val, type)
-        @muzzle_velocity[barrel] = val
-      end
-    }
-    raise "muzzle velocity required" if @muzzle_velocity.empty?
     OPTIONAL.each { |name, type|
       if hsh.key?(name)
         val = hsh[name]
@@ -79,6 +72,19 @@ class Ballistics::Cartridge
       end
     }
     @extra = {}
-    (hsh.keys - MANDATORY.keys - MUZZLE_VELOCITY.keys - OPTIONAL.keys).each { |k| @extra[k] = hsh[k] }
+    (hsh.keys - MANDATORY.keys - OPTIONAL.keys).each { |k| @extra[k] = hsh[k] }
+
+    # extract muzzle velocities per barrel length
+    @muzzle_velocity = {}
+    extracted = []
+    @extra.each { |key, val|
+      matches = key.match(BARREL_LENGTH_REGEX)
+      if matches
+        bl = matches[1].to_f.round
+        @muzzle_velocity[bl] = val
+        extracted << key
+      end
+    }
+    extracted.each { |k| @extra.delete(k) }
   end
 end
