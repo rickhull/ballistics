@@ -79,6 +79,6 @@ class Ballistics::Cartridge
       end
     }
     @extra = {}
-    (hsh.keys - MANDATORY.keys - OPTIONAL.keys).each { |k| @extra[k] = hsh[k] }
+    (hsh.keys - MANDATORY.keys - MUZZLE_VELOCITY.keys - OPTIONAL.keys).each { |k| @extra[k] = hsh[k] }
   end
 end

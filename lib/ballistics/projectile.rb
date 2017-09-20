@@ -72,5 +72,7 @@ class Ballistics::Projectile
         end
       end
     }
+    @extra = {}
+    (hsh.keys - MANDATORY.keys - BALLISTIC_COEFFICIENT.keys - OPTIONAL.keys).each { |k| @extra[k] = hsh[k] }
   end
 end
