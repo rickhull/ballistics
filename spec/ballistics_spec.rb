@@ -11,7 +11,7 @@ describe Ballistics do
 
   let(:zero_options) do
     { drag_function: 'G1',
-      ballistics_coefficient: 0.5,
+      ballistic_coefficient: 0.5,
       velocity: 1200,
       sight_height: 1.6,
       zero_range: 100, }
@@ -19,7 +19,7 @@ describe Ballistics do
 
   let(:trajectory_result) do
     Ballistics.trajectory(drag_function: 'G1',
-                          ballistics_coefficient: 0.5,
+                          ballistic_coefficient: 0.5,
                           velocity: 2850,
                           sight_height: 1.6,
                           wind_speed: 10,
@@ -32,7 +32,7 @@ describe Ballistics do
 
   let(:bad_params) do
     Ballistics.trajectory(drag_function: 'G1',
-                          ballistics_coefficient: 0.5,
+                          ballistic_coefficient: 0.5,
                           velocity: 2850)
   end
 

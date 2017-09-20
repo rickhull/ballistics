@@ -5,7 +5,7 @@ module Ballistics
   1.upto(8) { |g| DRAG_NUM["G#{g}"] = g }
 
   # e.g. Ballistics.trajectory(drag_function: 'G1',
-  #                            ballistics_coefficient: 0.465,
+  #                            ballistic_coefficient: 0.465,
   #                            velocity: 2200,
   #                            sight_height: 2.6,
   #                            zero_range: 100)
@@ -22,7 +22,7 @@ module Ballistics
     args = [
       # ammo projectile characteristics
       :drag_function,     # e.g. G1
-      :ballistics_coefficient,  # e.g. 0.5
+      :ballistic_coefficient,  # e.g. 0.5
       # ammo cartridge and barrel length determine muzzle velocity
       :velocity,          # feet per second, e.g. 2200
       # sight configuration relative to the bore
@@ -51,7 +51,7 @@ module Ballistics
 
     args = [
       :drag_function,             # e.g. G1
-      :ballistics_coefficient,    # e.g. 0.5
+      :ballistic_coefficient,     # e.g. 0.5
       :velocity,                  # muzzle velocity in FPS
       :sight_height,              # e.g. 2.6
       :zero_range,                # yards, e.g. 100
