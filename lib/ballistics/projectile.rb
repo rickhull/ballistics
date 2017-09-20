@@ -33,8 +33,6 @@ class Ballistics::Projectile
   def self.base(candidate)
     c = candidate.to_s.downcase.gsub /[\-\_ ]/, ''
     case c
-    when "flat", "boat"
-      c
     when "boat", "boattail", "bt"
       "boat"
     when "flat", "flatbase", "fb"
