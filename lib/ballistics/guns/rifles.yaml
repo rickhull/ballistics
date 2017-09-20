@@ -1,0 +1,19 @@
+ar15_carbine:
+  sight_height: 2.6
+  barrel_length: 16
+  zero_range: 50
+
+m4:
+  sight_height: 2.6
+  barrel_length: 14.5
+  zero_range: 50
+
+m16:
+  sight_height: 2.6
+  barrel_length: 20
+  zero_range: 100
+
+ar15_sbr:
+  sight_height: 2.6
+  barrel_length: 10.5
+  zero_range: 50
