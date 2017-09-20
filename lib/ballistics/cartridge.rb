@@ -109,4 +109,15 @@ class Ballistics::Cartridge
     extracted.each { |k| @extra.delete(k) }
     raise "no valid muzzle velocity" if @muzzle_velocity.empty?
   end
+
+  # estimate muzzle velocity for a given barrel length
+  def mv(barrel_length)
+    [barrel_length, barrel_length.floor, barrel_length.ceil].each { |candidate|
+      mv = @muzzle_velocity[candidate]
+      return mv if mv
+    }
+
+    # ok, now we need to interpolate if we can
+    raise "not implemented yet"
+  end
 end
