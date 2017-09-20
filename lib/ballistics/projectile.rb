@@ -31,13 +31,13 @@ class Ballistics::Projectile
   # Normalize common flat-base and boat-tail terms to flat or boat
   #
   def self.base(candidate)
-    c = candidate.to_s.downcase
+    c = candidate.to_s.downcase.gsub /[\-\_ ]/, ''
     case c
     when "flat", "boat"
       c
-    when "boattail"
+    when "boat", "boattail", "bt"
       "boat"
-    when "flatbase", "flat base"
+    when "flat", "flatbase", "fb"
       "flat"
     else
       raise "unknown base: #{candidate}"
