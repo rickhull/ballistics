@@ -43,6 +43,7 @@ hpr_110_tac_tx:
   case: 300 BLK
   projectile: barnes_110_tac_tx_300_blk
   10_inch_fps: 2170
+  16_inch_fps: 2300
   desc: Accurate and consistent load
 
 wilson_110_tac_tx:
