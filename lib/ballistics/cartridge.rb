@@ -107,5 +107,6 @@ class Ballistics::Cartridge
       end
     }
     extracted.each { |k| @extra.delete(k) }
+    raise "no valid muzzle velocity" if @muzzle_velocity.empty?
   end
 end
