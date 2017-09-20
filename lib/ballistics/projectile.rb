@@ -42,33 +42,34 @@ class Ballistics::Projectile
   attr_reader *MANDATORY.keys
   attr_reader *BALLISTIC_COEFFICIENT.keys
   attr_reader *OPTIONAL.keys
-  attr_reader :ballistic_coefficient, :yaml, :extra
+  attr_reader :ballistic_coefficient, :yaml_data, :extra
 
   def initialize(hsh)
-    @yaml = hsh
-    MANDATORY.each { |name, type|
-      val = hsh.fetch(name)
+    @yaml_data = hsh
+    MANDATORY.each { |field, type|
+      val = hsh.fetch(field)
       Ballistics.check_type!(val, type)
-      self.instance_variable_set("@#{name}", val)
+      self.instance_variable_set("@#{field}", val)
     }
     @ballistic_coefficient = {}
-    BALLISTIC_COEFFICIENT.each { |name, type|
-      if hsh.key?(name)
-        val = hsh[name]
+    BALLISTIC_COEFFICIENT.each { |field, type|
+      if hsh.key?(field)
+        val = hsh[field]
         Ballistics.check_type!(val, type)
-        self.instance_variable_set("@#{name}", val)
-        @ballistic_coefficient[name] = val
+        self.instance_variable_set("@#{field}", val)
+        @ballistic_coefficient[field] = val
       end
     }
     raise "no valid BC" if @ballistic_coefficient.empty?
-    OPTIONAL.each { |name, type|
-      if hsh.key?(name)
-        val = hsh[name]
+
+    OPTIONAL.each { |field, type|
+      if hsh.key?(field)
+        val = hsh[field]
         Ballistics.check_type!(val, type)
-        if name == "base"
+        if field == "base"
           @base = self.class.base(val)
         else
-          self.instance_variable_set("@#{name}", val)
+          self.instance_variable_set("@#{field}", val)
         end
       end
     }

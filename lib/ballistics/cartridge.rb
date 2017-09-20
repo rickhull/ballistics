@@ -54,11 +54,11 @@ class Ballistics::Cartridge
 
   attr_reader *MANDATORY.keys
   attr_reader *OPTIONAL.keys
-  attr_reader :muzzle_velocity, :yaml, :extra
+  attr_reader :muzzle_velocity, :yaml_data, :extra
   attr_writer :projectile
 
   def initialize(hsh)
-    @yaml = hsh
+    @yaml_data = hsh
     MANDATORY.each { |name, type|
       val = hsh.fetch(name)
       Ballistics.check_type!(val, type)
