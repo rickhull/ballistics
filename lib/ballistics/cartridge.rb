@@ -81,6 +81,7 @@ class Ballistics::Cartridge
     inch_diff = known_length - unknown_length
     known_bf = burn_length.to_f / known_length
     unknown_bf = burn_length.to_f / unknown_length
+    # assume 1% FPS per inch; adjust for burn_length and take the average
     fps_per_inch = known_mv * (known_bf + unknown_bf) / 2 / 100
     known_mv - inch_diff * fps_per_inch
   end
@@ -144,10 +145,10 @@ class Ballistics::Cartridge
       raise "no muzzle velocities available"
     when 1
       known_length = known_lengths.first
-      known_mv = @muzzle_velocity[known_length]
-      burn_length = BURN_LENGTH.fetch(@case)
-
-      self.class.guess_mv(known_length, known_mv, burn_length, barrel_length)
+      self.class.guess_mv(known_length,
+                          @muzzle_velocity[known_length],
+                          BURN_LENGTH.fetch(@case),
+                          barrel_length)
     else
       # ok, now we need to interpolate if we can
       raise "not implemented yet"
