@@ -40,7 +40,7 @@ class Ballistics::Cartridge
   # A cartridge object starts with a string identifier for its projectile
   # Given a hash of cartridge objects (keyed by cartridge id)
   #   and a hash of projectile objects (keyed by projectile id)
-  #   Set the cartridge's projectile to the projectile object identified
+  # Set the cartridge's projectile to the projectile object identified
   #   by the string value
   # The cartridge objects in the cartridges hash are updated in place
   # The return value reports what was updated
