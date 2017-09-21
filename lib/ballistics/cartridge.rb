@@ -12,6 +12,14 @@ class Ballistics::Cartridge
     "powder_type" => :string,
   }
 
+  # used to guesstimate muzzle velocities for unknown barrel lengths
+  BURN_LENGTH = {
+    '300 BLK' => 9,
+    '5.56' => 20,
+    '.223' => 20,
+    '.308' => 24,
+  }
+
   # Load a YAML file and instantiate cartridge objects
   # Return a hash of cartridge objects keyed by the cartridge id as in the YAML
   #
@@ -65,7 +73,19 @@ class Ballistics::Cartridge
     retval
   end
 
-  # match and extract e.g. "16" from "16_inch_fps"
+  # Given a single data point (barrel_length, muzzle_velocity)
+  #   and a known burn length
+  # Guess a muzzle velocity for an unknown length
+  #
+  def self.guess_mv(known_length, known_mv, burn_length, unknown_length)
+    inch_diff = known_length - unknown_length
+    known_bf = burn_length.to_f / known_length
+    unknown_bf = burn_length.to_f / unknown_length
+    fps_per_inch = known_mv * (known_bf + unknown_bf) / 2 / 100
+    known_mv - inch_diff * fps_per_inch
+  end
+
+  # Match and extract e.g. "16" from "16_inch_fps"
   BARREL_LENGTH_REGEX = /([0-9]+)_inch_fps/i
 
   attr_reader(*MANDATORY.keys)
@@ -117,7 +137,20 @@ class Ballistics::Cartridge
       return mv if mv
     }
 
-    # ok, now we need to interpolate if we can
-    raise "not implemented yet"
+    known_lengths = @muzzle_velocity.keys
+
+    case known_lengths.length
+    when 0
+      raise "no muzzle velocities available"
+    when 1
+      known_length = known_lengths.first
+      known_mv = @muzzle_velocity[known_length]
+      burn_length = BURN_LENGTH.fetch(@case)
+
+      self.class.guess_mv(known_length, known_mv, burn_length, barrel_length)
+    else
+      # ok, now we need to interpolate if we can
+      raise "not implemented yet"
+    end
   end
 end
