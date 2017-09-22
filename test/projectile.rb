@@ -85,7 +85,11 @@ describe Ballistics::Projectile do
 
     it "must accept optional fields" do
       P::OPTIONAL.keys.each { |k|
-        @prj.send(k).must_equal @test_data[k]
+        if @test_data.key?(k)
+          @prj.send(k).must_equal @test_data[k]
+        else
+          @prj.send(k).must_be_nil
+        end
       }
     end
 
