@@ -52,16 +52,17 @@ describe Ballistics::Projectile do
     end
 
     it "must raise with insufficient parameters" do
-      proc { P.new({}) }.must_raise Exception
       params = {}
-      # note, P::BALLISTIC_COEFFICIENT is also mandatory
+      proc { P.new params }.must_raise Exception
+      # accumulate the mandatory fields in params
+      # note, one of P::BALLISTIC_COEFFICIENT is also mandatory
       P::MANDATORY.keys.each { |mfield|
         params[mfield] = @test_data.fetch(mfield)
         proc { P.new params }.must_raise Exception
       }
       bc = { 'g1' => 0.123 }
-      P.new(params.merge(bc)).must_be_kind_of P
       proc { P.new bc }.must_raise Exception
+      P.new(params.merge(bc)).must_be_kind_of P
     end
 
     it "must have a name" do
