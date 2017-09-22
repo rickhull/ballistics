@@ -32,7 +32,6 @@ puts "     Case: #{cart.case}"
 cart.muzzle_velocity.keys.sort.each { |bl|
   puts "MV @ #{bl}:".rjust(10, ' ') + " #{cart.muzzle_velocity[bl]}"
 }
-puts " Muzzle V:"
 puts "     Desc: #{cart.desc}" if cart.desc
 puts
 puts "Projectile: #{proj.name}"
