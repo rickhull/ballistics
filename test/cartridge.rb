@@ -34,6 +34,20 @@ describe C do
       @cart_ex = C.new(@test_data.merge(@extra_data))
     end
 
+    it "must raise with insufficient parameters" do
+      params = {}
+      proc { C.new params }.must_raise Exception
+      # Accumulate the mandatory fields in params
+      # Note, a field matching C::BARREL_LENGTH_REGEX is also mandatory
+      C::MANDATORY.keys.each { |mfield|
+        params[mfield] = @test_data[mfield]
+        proc { C.new params }.must_raise Exception
+      }
+      mv = { "15_inch_fps" => 15 }
+      proc { C.new mv }.must_raise Exception
+      C.new(params.merge(mv)).must_be_kind_of C
+    end
+
     it "must have a name" do
       @cart.name.wont_be_nil
       @cart.name.must_equal @test_data["name"]
@@ -66,7 +80,7 @@ describe C do
 
     it "must accept optional fields" do
       C::OPTIONAL.keys.each { |k|
-        if @test_data[k]
+        if @test_data.key? k
           @cart.send(k).must_equal @test_data[k]
         else
           @cart.send(k).must_be_nil
@@ -83,6 +97,25 @@ describe C do
       @cart.extra.must_be_empty
       @cart_ex.extra.wont_be_empty
       @cart_ex.extra.must_equal @extra_data
+    end
+  end
+
+  describe "muzzle velocity" do
+    before do
+      # we need a valid case -- e.g. 300 BLK
+      @cart = C.new(@test_data.merge("case" => "300 BLK"))
+    end
+
+    it "must estimate an unknown muzzle velocity" do
+      # sanity checks
+      C::BURN_LENGTH[@cart.case].wont_be_nil
+      @test_data["20_inch_fps"].wont_be_nil
+      @test_data["19_inch_fps"].must_be_nil
+      @test_data["21_inch_fps"].must_be_nil
+
+      @cart.mv(20).must_equal @test_data["20_inch_fps"]
+      @cart.mv(20.9).must_equal @test_data["20_inch_fps"]
+      @cart.mv(19.1).must_equal @test_data["20_inch_fps"]
     end
   end
 end
