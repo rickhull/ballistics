@@ -1,9 +1,9 @@
 require 'minitest/autorun'
 require 'ballistics/gun'
 
-describe Ballistics::Gun do
-  G = Ballistics::Gun
+G = Ballistics::Gun
 
+describe G do
   before do
     @test_data = {
       "name" => "Test Gun",
