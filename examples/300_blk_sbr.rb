@@ -24,7 +24,7 @@ puts "==="
 puts "      Chamber: #{gun.chamber}"
 puts "Barrel length: #{gun.barrel_length}"
 puts " Sight height: #{gun.sight_height}"
-puts "   Zero Range: #{gun.zero_range}"
+puts "   Zero Range: #{gun.zero_range}" if gun.zero_range
 puts
 puts "Cartridge: #{cart.name}"
 puts "========="
