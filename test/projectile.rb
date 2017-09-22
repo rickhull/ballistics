@@ -1,9 +1,9 @@
 require 'minitest/autorun'
 require 'ballistics/projectile'
 
-describe Ballistics::Projectile do
-  P = Ballistics::Projectile
+P = Ballistics::Projectile
 
+describe P do
   before do
     @test_data = {
       "name" => "Test Projectile",
