@@ -1,9 +1,9 @@
 require 'minitest/autorun'
 require 'ballistics/cartridge'
 
-describe Ballistics::Cartridge do
-  C = Ballistics::Cartridge
+C = Ballistics::Cartridge
 
+describe C do
   before do
     @test_data = {
       "name" => "Test Cartridge",
@@ -12,21 +12,10 @@ describe Ballistics::Cartridge do
       "20_inch_fps" => 2000,
       "desc" => "Test Cartridge for test purposes",
     }
-    @test_projectile = {
-      "name" => "Test Projectile",
-      "cal" => 1.0,
-      "grains" => 100,
-      "g1" => 1.0,
-      "sd" => 1.0,
-      "intended" => "test purposes",
-      "base" => "flat",
-      "desc" => "Test Projectile for test purposes",
-    }
     @extra_data = {
       "foo" => "bar",
     }
   end
-
 
   describe "BARREL_LENGTH_REGEX" do
     it "must match and extract barrel lengths" do
