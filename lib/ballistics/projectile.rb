@@ -16,6 +16,10 @@ class Ballistics::Projectile
     "base"     =>:string,
     "desc"     => :string,
   }
+  DRAG_FUNCTION = {
+    "flat" => "g1",
+    "boat" => "g7",
+  }
 
   # Load a YAML file and instantiate projectile objects
   # Return a hash of projectile objects keyed by projectile id (per the YAML)
@@ -91,12 +95,9 @@ class Ballistics::Projectile
 
   # return the preferred drag function if there is a BC available
   def drag_function
-    preferred = (base == "flat" ? 'g1' : 'g7')
-    if @ballistic_coefficient[preferred]
-      preferred
-    else
-      @ballistic_coefficient.keys.first
-    end
+    preferred = DRAG_FUNCTION.fetch(@base)
+    return preferred if @ballistic_coefficient.key?(preferred)
+    @ballistic_coefficient.keys.first
   end
 
   # return the BC for the preferred drag function
