@@ -2,10 +2,10 @@ require 'ballistics/yaml'
 
 class Ballistics::Gun
   MANDATORY = {
-    "name" => :string,
-    "chamber" => :string,
+    "name"          => :string,
+    "chamber"       => :string,
     "barrel_length" => :float,
-    "sight_height" => :float,
+    "sight_height"  => :float,
   }
   OPTIONAL = {
     "zero_range" => :float,
