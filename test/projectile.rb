@@ -51,6 +51,19 @@ describe Ballistics::Projectile do
       @prj_ex = P.new(@test_data.merge(@extra_data))
     end
 
+    it "must raise with insufficient parameters" do
+      proc { P.new({}) }.must_raise Exception
+      params = {}
+      # note, P::BALLISTIC_COEFFICIENT is also mandatory
+      P::MANDATORY.keys.each { |mfield|
+        params[mfield] = @test_data.fetch(mfield)
+        proc { P.new params }.must_raise Exception
+      }
+      bc = { 'g1' => 0.123 }
+      P.new(params.merge(bc)).must_be_kind_of P
+      proc { P.new bc }.must_raise Exception
+    end
+
     it "must have a name" do
       @prj.name.wont_be_nil
       @prj.name.must_equal @test_data["name"]
