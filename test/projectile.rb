@@ -118,4 +118,46 @@ describe P do
       @prj_ex.extra.must_equal @extra_data
     end
   end
+
+  describe P::DRAG_FUNCTION do
+    it "must match keys to P.base" do
+      P::DRAG_FUNCTION.keys.each { |k|
+        P.base(k).must_equal k
+      }
+    end
+
+    it "must match values to C::BALLISTIC_COEFFICIENT" do
+      P::DRAG_FUNCTION.values.each { |v|
+        P::BALLISTIC_COEFFICIENT.key?(v).must_equal true
+      }
+    end
+  end
+
+  describe "drag_function" do
+    before do
+      # Set up various combinations of flat/boat and g1/g7
+      flat = @test_data.merge("base" => "flat")
+      flat.delete("g1")
+      flat.delete("g7")
+      boat = flat.merge("base" => "boat")
+      g1 = { "g1" => 0.123 }
+      g7 = { "g7" => 0.789 }
+      @f1 = flat.merge(g1)
+      @f7 = flat.merge(g7)
+      @f17 = flat.merge(g1).merge(g7)
+      @b1 = boat.merge(g1)
+      @b7 = boat.merge(g7)
+      @b17 = boat.merge(g1).merge(g7)
+    end
+
+    it "must use the preferred nomenclature" do
+      P.new(@f1).drag_function.must_equal "g1"
+      P.new(@f7).drag_function.must_equal "g7"
+      P.new(@f17).drag_function.must_equal "g1"
+
+      P.new(@b1).drag_function.must_equal "g1"
+      P.new(@b7).drag_function.must_equal "g7"
+      P.new(@b17).drag_function.must_equal "g7"
+    end
+  end
 end
