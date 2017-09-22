@@ -30,16 +30,13 @@ class Ballistics::Gun
 
   attr_reader(*MANDATORY.keys)
   attr_reader(*OPTIONAL.keys)
-  attr_reader(:cartridge_file, :yaml_data, :extra)
+  attr_reader(:yaml_data, :extra)
 
   def initialize(hsh)
     @yaml_data = hsh
     MANDATORY.each { |field, type|
       val = hsh.fetch(field)
-      if field == "chamber"
-        val = val.to_s
-        @cartridge_file = CHAMBER_CARTRIDGE.fetch(val)
-      end
+      val = val.to_s if field == "chamber"
       Ballistics.check_type!(val, type)
       self.instance_variable_set("@#{field}", val)
     }
@@ -59,10 +56,14 @@ class Ballistics::Gun
     }
   end
 
+  def cartridge_file
+    CHAMBER_CARTRIDGE.fetch(@chamber)
+  end
+
   # this will pull in cartridges and projectiles based on the gun chamber
   def cartridges
     require 'ballistics/cartridge'
 
-    Ballistics::Cartridge.load_projectiles(@cartridge_file)
+    Ballistics::Cartridge.load_projectiles(self.cartridge_file)
   end
 end
