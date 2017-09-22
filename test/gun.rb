@@ -65,4 +65,17 @@ describe G do
       @gun_ex.extra.must_equal @extra_data
     end
   end
+
+  describe "cartridge file" do
+    it "must recognize a valid cartridge" do
+      valid = { "chamber" => "300 BLK" }
+      # sanity check
+      valid.values.each { |chamber|
+        G::CHAMBER_CARTRIDGE.key?(chamber).must_equal true
+      }
+      gun = G.new @test_data.merge(valid)
+      gun.cartridge_file.must_be_kind_of String
+      gun.cartridges.must_be_kind_of Hash
+    end
+  end
 end
