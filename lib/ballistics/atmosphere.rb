@@ -24,21 +24,20 @@ class Ballistics::Atmosphere
     objects
   end
 
-  # TODO: call to_d in initialize
   # US Army standard, used by most commercial ammunition specs
   ARMY = {
-    "altitude" => 0.to_d,       # feet
-    "humidity" => 0.78.to_d,    # percent
-    "pressure" => 29.5275.to_d, # inches of mercury
-    "temp" => 59.to_d,          # degrees fahrenheit
+    "altitude" => 0,
+    "humidity" => 0.78,
+    "pressure" => 29.5275,
+    "temp"     => 59,
   }
 
   # International Civil Aviation Organization
   ICAO = {
-    "altitude"=> 0.to_d,
-    "humidity"=> 0.to_d,
-    "pressure"=> 29.9213.to_d,
-    "temp"=> 59.to_d,
+    "altitude" => 0,
+    "humidity" => 0,
+    "pressure" => 29.9213,
+    "temp"     => 59,
   }
 
   # altitude coefficients
@@ -93,7 +92,7 @@ class Ballistics::Atmosphere
     MANDATORY.each { |field, type|
       val = hsh.fetch(field)
       Ballistics.check_type!(val, type)
-      self.instance_variable_set("@#{field}", val)
+      self.instance_variable_set("@#{field}", val.to_d)
     }
   end
 
