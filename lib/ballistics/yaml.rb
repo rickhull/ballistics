@@ -23,6 +23,8 @@ module Ballistics
       val.is_a?(String)
     when :float
       val.is_a?(Numeric)
+    when :percent
+      val.is_a?(Numeric) and val >= 0 and val <= 1
     when :count
       val.is_a?(1.class) and val >= 0
     when :int
