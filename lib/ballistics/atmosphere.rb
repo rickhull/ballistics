@@ -12,9 +12,13 @@ class Ballistics::Atmosphere
     "temp"     => :float,   # degrees fahrenheit
   }
 
+  # Load a YAML file and instantiate atmosphere objects
+  # Return a hash of atmosphere objects keyed by object id (per the YAML)
+  # No built-in YAML files are provided or considered; see ARMY and ICAO below
+  #
   def self.load(filename)
     objects = {}
-    Ballistics.load_yaml(filename, 'atmospheres').each { |id, hsh|
+    Ballistics.load_yaml(filename, nil).each { |id, hsh|
       objects[id] = self.new(hsh)
     }
     objects
