@@ -6,10 +6,10 @@ require 'ballistics/yaml'
 
 class Ballistics::Atmosphere
   MANDATORY = {
-    "altitude" => :float,
-    "humidity" => :float,
-    "pressure" => :float,
-    "temp" => :float,
+    "altitude" => :float,   # feet
+    "humidity" => :percent, # float between 0 and 1
+    "pressure" => :float,   # inches of mercury
+    "temp"     => :float,   # degrees fahrenheit
   }
 
   def self.load(filename)
