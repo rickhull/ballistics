@@ -1,23 +1,40 @@
 require 'bigdecimal'
 require 'bigdecimal/util'
+require 'ballistics/yaml'
 
 # http://www.exteriorballistics.com/ebexplained/4th/51.cfm
 
 class Ballistics::Atmosphere
+  MANDATORY = {
+    "altitude" => :float,
+    "humidity" => :float,
+    "pressure" => :float,
+    "temp" => :float,
+  }
+
+  def self.load(filename)
+    objects = {}
+    Ballistics.load_yaml(filename, 'atmospheres').each { |id, hsh|
+      objects[id] = self.new(hsh)
+    }
+    objects
+  end
+
+  # TODO: call to_d in initialize
   # US Army standard, used by most commercial ammunition specs
   ARMY = {
-    altitude: 0.to_d,       # feet
-    humidity: 0.78.to_d,    # percent
-    pressure: 29.5275.to_d, # inches of mercury
-    temp: 59.to_d,          # degrees fahrenheit
+    "altitude" => 0.to_d,       # feet
+    "humidity" => 0.78.to_d,    # percent
+    "pressure" => 29.5275.to_d, # inches of mercury
+    "temp" => 59.to_d,          # degrees fahrenheit
   }
 
   # International Civil Aviation Organization
   ICAO = {
-    altitude: 0.to_d,
-    humidity: 0.to_d,
-    pressure: 29.9213.to_d,
-    temp: 59.to_d,
+    "altitude"=> 0.to_d,
+    "humidity"=> 0.to_d,
+    "pressure"=> 29.9213.to_d,
+    "temp"=> 59.to_d,
   }
 
   # altitude coefficients
@@ -56,22 +73,24 @@ class Ballistics::Atmosphere
 
   def self.pressure_factor(pressure)
     pressure = pressure.to_d
-    (pressure - ARMY[:pressure]) / ARMY[:pressure]
+    (pressure - ARMY["pressure"]) / ARMY["pressure"]
   end
 
   def self.temp_factor(temp, altitude)
-    std_temp = ARMY[:temp] + altitude * TEMP_ALTITUDE_CORRECTION
+    std_temp = ARMY["temp"] + altitude * TEMP_ALTITUDE_CORRECTION
     (temp - std_temp) / (RANKLINE_CORRECTION + std_temp)
   end
 
-  attr_reader *ARMY.keys
+  attr_reader(*MANDATORY.keys)
+  attr_reader(:yaml_data, :extra)
 
-  def initialize(opts = {})
-    opts = ARMY.merge(opts)
-    @altitude = opts[:altitude]
-    @humidity = opts[:humidity]
-    @pressure = opts[:pressure]
-    @temp = opts[:temp]
+  def initialize(hsh = ARMY.dup)
+    @yaml_data = hsh
+    MANDATORY.each { |field, type|
+      val = hsh.fetch(field)
+      Ballistics.check_type!(val, type)
+      self.instance_variable_set("@#{field}", val)
+    }
   end
 
   def translate(ballistic_coefficient)

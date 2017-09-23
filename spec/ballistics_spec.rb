@@ -3,10 +3,10 @@ require 'ballistics/atmosphere'
 
 describe Ballistics do
   let(:atmosphere) do
-    Ballistics::Atmosphere.new(altitude: 5430,
-                               humidity: 0.48,
-                               pressure: 29.93,
-                               temp: 40)
+    Ballistics::Atmosphere.new("altitude" => 5430,
+                               "humidity" => 0.48,
+                               "pressure" => 29.93,
+                               "temp" => 40)
   end
 
   let(:zero_options) do
