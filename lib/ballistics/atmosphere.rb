@@ -90,8 +90,8 @@ class Ballistics::Atmosphere
   def initialize(hsh = ARMY.dup)
     @yaml_data = hsh
     MANDATORY.each { |field, type|
-      val = hsh.fetch(field)
-      Ballistics.check_type!(val, type)
+      val = hsh[field] || hsh[field.to_sym] or raise("#{field} not provided")
+      Ballistics::YAML.check_type!(val, type)
       self.instance_variable_set("@#{field}", val.to_d)
     }
   end
