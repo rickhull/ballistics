@@ -132,12 +132,12 @@ class Ballistics::Cartridge
   end
 
   # estimate muzzle velocity for a given barrel length
-  def mv(barrel_length)
+  def mv(barrel_length, burn_length = nil)
     [barrel_length, barrel_length.floor, barrel_length.ceil].each { |candidate|
       mv = @muzzle_velocity[candidate]
       return mv if mv
     }
-
+    burn_length ||= BURN_LENGTH.fetch(@case)
     known_lengths = @muzzle_velocity.keys
 
     case known_lengths.length
@@ -147,7 +147,7 @@ class Ballistics::Cartridge
       known_length = known_lengths.first
       self.class.guess_mv(known_length,
                           @muzzle_velocity[known_length],
-                          BURN_LENGTH.fetch(@case),
+                          burn_length,
                           barrel_length)
     else
       # ok, now we need to interpolate if we can
