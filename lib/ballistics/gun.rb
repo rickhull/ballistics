@@ -1,6 +1,8 @@
 require 'ballistics/yaml'
 
 class Ballistics::Gun
+  class ChamberNotFound < KeyError; end
+
   MANDATORY = {
     "name"          => :string,
     "chamber"       => :string,
@@ -60,7 +62,7 @@ class Ballistics::Gun
   end
 
   def cartridge_file
-    CHAMBER_CARTRIDGE.fetch(@chamber)
+    CHAMBER_CARTRIDGE[@chamber] or raise(ChamberNotFound, @chamber)
   end
 
   # this will pull in cartridges and projectiles based on the gun chamber
