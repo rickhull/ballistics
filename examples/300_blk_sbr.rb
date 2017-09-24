@@ -5,7 +5,7 @@ gun_family = 'rifles'
 gun_id = 'ar15_300_blk'
 cart_id = "barnes_110_vor_tx"
 
-gun = Ballistics::Gun.load(gun_family).fetch(gun_id)
+gun = Ballistics::Gun.built_in_objects(gun_family).fetch(gun_id)
 cart = gun.cartridges.fetch(cart_id)
 mv = cart.mv(gun.barrel_length)
 proj = cart.projectile
