@@ -23,9 +23,9 @@ class Ballistics::Cartridge
   # Load a YAML file and instantiate cartridge objects
   # Return a hash of cartridge objects keyed by the cartridge id as in the YAML
   #
-  def self.load(filename)
+  def self.built_in_objects(short_name)
     objects = {}
-    Ballistics.load_yaml(filename, 'cartridges').each { |id, hsh|
+    Ballistics::YAML.load_built_in('cartridges', short_name).each { |id, hsh|
       objects[id] = self.new(hsh)
     }
     objects
@@ -39,8 +39,8 @@ class Ballistics::Cartridge
   def self.load_projectiles(chamber)
     require 'ballistics/projectile'
 
-    cartridges = self.load(chamber)
-    projectiles = Ballistics::Projectile.load(chamber)
+    cartridges = self.built_in_objects(chamber)
+    projectiles = Ballistics::Projectile.built_in_objects(chamber)
     self.cross_ref(cartridges, projectiles)
     cartridges
   end
@@ -98,14 +98,14 @@ class Ballistics::Cartridge
     @yaml_data = hsh
     MANDATORY.each { |field, type|
       val = hsh.fetch(field)
-      Ballistics.check_type!(val, type)
+      Ballistics::YAML.check_type!(val, type)
       self.instance_variable_set("@#{field}", val)
     }
 
     OPTIONAL.each { |field, type|
       if hsh.key?(field)
         val = hsh[field]
-        Ballistics.check_type!(val, type)
+        Ballistics::YAML.check_type!(val, type)
         self.instance_variable_set("@#{field}", val)
       end
     }
