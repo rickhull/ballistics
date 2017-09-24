@@ -24,9 +24,9 @@ class Ballistics::Projectile
   # Load a YAML file and instantiate projectile objects
   # Return a hash of projectile objects keyed by projectile id (per the YAML)
   #
-  def self.load(filename)
+  def self.built_in_objects(short_name)
     objects = {}
-    Ballistics.load_yaml(filename, 'projectiles').each { |id, hsh|
+    Ballistics::YAML.load_built_in('projectiles', short_name).each { |id, hsh|
       objects[id] = self.new(hsh)
     }
     objects
@@ -55,7 +55,7 @@ class Ballistics::Projectile
     @yaml_data = hsh
     MANDATORY.each { |field, type|
       val = hsh.fetch(field)
-      Ballistics.check_type!(val, type)
+      Ballistics::YAML.check_type!(val, type)
       self.instance_variable_set("@#{field}", val)
     }
 
@@ -66,7 +66,7 @@ class Ballistics::Projectile
     BALLISTIC_COEFFICIENT.each { |field, type|
       if hsh.key?(field)
         val = hsh[field]
-        Ballistics.check_type!(val, type)
+        Ballistics::YAML.check_type!(val, type)
         self.instance_variable_set("@#{field}", val)
         @ballistic_coefficient[field] = val
       end
@@ -76,7 +76,7 @@ class Ballistics::Projectile
     OPTIONAL.each { |field, type|
       if hsh.key?(field)
         val = hsh[field]
-        Ballistics.check_type!(val, type)
+        Ballistics::YAML.check_type!(val, type)
         if field == "base"
           @base = self.class.base(val)
         else
