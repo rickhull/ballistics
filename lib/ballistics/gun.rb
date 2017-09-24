@@ -20,12 +20,12 @@ class Ballistics::Gun
     # '12ga' => '12ga',
   }
 
-  # Load a YAML file and instantiate gun objects
+  # Load a built-in YAML file and instantiate gun objects
   # Return a hash of gun objects keyed by gun id (per the YAML)
   #
-  def self.load(filename)
+  def self.built_in_objects(short_name)
     objects = {}
-    Ballistics.load_yaml(filename, 'guns').each { |id, hsh|
+    Ballistics::YAML.load_built_in('guns', short_name).each { |id, hsh|
       objects[id] = self.new(hsh)
     }
     objects
@@ -40,14 +40,14 @@ class Ballistics::Gun
     MANDATORY.each { |field, type|
       val = hsh.fetch(field)
       val = val.to_s if field == "chamber"
-      Ballistics.check_type!(val, type)
+      Ballistics::YAML.check_type!(val, type)
       self.instance_variable_set("@#{field}", val)
     }
 
     OPTIONAL.each { |field, type|
       if hsh.key?(field)
         val = hsh[field]
-        Ballistics.check_type!(val, type)
+        Ballistics::YAML.check_type!(val, type)
         self.instance_variable_set("@#{field}", val)
       end
     }
