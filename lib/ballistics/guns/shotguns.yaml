@@ -1,0 +1,6 @@
+mossberg_500:
+  name: "Mossberg 500 12ga 18.5in"
+  sight_height: 1.2
+  barrel_length: 18.5
+  zero_range: 25
+  chamber: 12ga

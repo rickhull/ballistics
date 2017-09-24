@@ -1,0 +1,6 @@
+"1911":
+  name: M1911A1
+  sight_height: 0.8
+  barrel_length: 5
+  zero_range: 25
+  chamber: .45 ACP
