@@ -1,20 +1,35 @@
 require 'yaml'
 
-module Ballistics
-  def self.load_yaml(filename, built_in = nil)
-    candidates = [filename]
-    if built_in # check for yaml files built in to this library
-      candidates.unshift(File.join(__dir__, built_in, "#{filename}.yaml"))
-      candidates.unshift(File.join(__dir__, built_in, filename))
-    end
-    yaml = nil
-    candidates.each { |file|
-      if File.readable?(file)
-        yaml = YAML.load_file(file)
-        break
+module Ballistics; end
+module Ballistics::YAML
+  class UnknownType < RuntimeError; end
+  class TypeMismatch < RuntimeError; end
+  class LoadError < RuntimeError; end
+  class MandatoryFieldError; end
+
+  # Return a hash keyed by subdir with array values
+  # Array contains short names for the subdir's yaml files
+  # e.g. { 'cartridges' => ['300_blk'] }
+  #
+  BUILT_IN = {}
+  Dir[File.join(__dir__, '*')].each { |fn|
+    if File.directory? fn
+      yaml_files = Dir[File.join(fn, '*.yaml')]
+      if !yaml_files.empty?
+        BUILT_IN[File.basename fn] =
+          yaml_files.map { |y| File.basename(y, '.yaml') }
       end
-    }
-    yaml or raise("unable to read #{filename}")
+    end
+  }
+
+  def self.load_built_in(dir, short_name)
+    files = BUILT_IN[dir] or raise(LoadError, "unknown dir: #{dir}")
+    filename = [short_name, 'yaml'].join('.')
+    if files.include?(short_name)
+      ::YAML.load_file(File.join(__dir__, dir, filename))
+    else
+      raise(LoadError, "unknown short name: #{short_name}")
+    end
   end
 
   def self.check_type?(val, type)
@@ -30,11 +45,11 @@ module Ballistics
     when :int
       val.is_a?(1.class)
     else
-      raise "unknown type: #{type}"
+      raise UnknownType, type
     end
   end
 
   def self.check_type!(val, type)
-    self.check_type?(val, type) or raise("val #{val} is not type #{type}")
+    self.check_type?(val, type) or raise(TypeMismatch, [val, type].join(' '))
   end
 end
