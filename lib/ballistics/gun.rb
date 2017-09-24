@@ -14,7 +14,10 @@ class Ballistics::Gun
   # map a chamber name to a built-in cartridge YAML filename
   CHAMBER_CARTRIDGE = {
     '5.56' => '5_56',
-    '300 BLK' => '300_blk'
+    '300 BLK' => '300_blk',
+    # TODO: create these cartridge yamls
+    # '.45 ACP' => '45_acp',
+    # '12ga' => '12ga',
   }
 
   # Load a YAML file and instantiate gun objects
