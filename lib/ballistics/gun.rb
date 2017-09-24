@@ -25,10 +25,15 @@ class Ballistics::Gun
   # Load a built-in YAML file and instantiate gun objects
   # Return a hash of gun objects keyed by gun id (per the YAML)
   #
-  def self.built_in_objects(short_name)
+  def self.find(short_name)
     objects = {}
     Ballistics::YAML.load_built_in('guns', short_name).each { |id, hsh|
-      objects[id] = self.new(hsh)
+      obj = self.new(hsh)
+      if block_given?
+        objects[id] = obj if yield obj
+      else
+        objects[id] = obj
+      end
     }
     objects
   end
@@ -69,6 +74,6 @@ class Ballistics::Gun
   def cartridges
     require 'ballistics/cartridge'
 
-    Ballistics::Cartridge.load_projectiles(self.cartridge_file)
+    Ballistics::Cartridge.find_with_projectiles(self.cartridge_file)
   end
 end

@@ -20,13 +20,18 @@ class Ballistics::Cartridge
     '.308' => 24,
   }
 
-  # Load a YAML file and instantiate cartridge objects
+  # Load a built-in YAML file and instantiate cartridge objects
   # Return a hash of cartridge objects keyed by the cartridge id as in the YAML
   #
-  def self.built_in_objects(short_name)
+  def self.find(short_name)
     objects = {}
     Ballistics::YAML.load_built_in('cartridges', short_name).each { |id, hsh|
-      objects[id] = self.new(hsh)
+      obj = self.new(hsh)
+      if block_given?
+        objects[id] = obj if yield obj
+      else
+        objects[id] = obj
+      end
     }
     objects
   end
@@ -36,11 +41,11 @@ class Ballistics::Cartridge
   # projectile data.  To do this for user-supplied data files, the user should
   # perform the cross_ref explicitly
   #
-  def self.load_projectiles(chamber)
+  def self.find_with_projectiles(chamber)
     require 'ballistics/projectile'
 
-    cartridges = self.built_in_objects(chamber)
-    projectiles = Ballistics::Projectile.built_in_objects(chamber)
+    cartridges = self.find(chamber)
+    projectiles = Ballistics::Projectile.find(chamber)
     self.cross_ref(cartridges, projectiles)
     cartridges
   end

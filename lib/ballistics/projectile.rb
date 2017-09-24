@@ -21,13 +21,18 @@ class Ballistics::Projectile
     "boat" => "g7",
   }
 
-  # Load a YAML file and instantiate projectile objects
+  # Load a built-in YAML file and instantiate projectile objects
   # Return a hash of projectile objects keyed by projectile id (per the YAML)
   #
-  def self.built_in_objects(short_name)
+  def self.find(short_name)
     objects = {}
     Ballistics::YAML.load_built_in('projectiles', short_name).each { |id, hsh|
-      objects[id] = self.new(hsh)
+      obj = self.new(hsh)
+      if block_given?
+        objects[id] = obj if yield obj
+      else
+        objects[id] = obj
+      end
     }
     objects
   end
