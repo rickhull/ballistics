@@ -12,7 +12,7 @@ describe Problem do
       sight_height: 1.6,
       zero_range: 100,
     }
-    Problem.zero_angle(opts).round(6).must_equal 0.227188
+    Ballistics.zero_angle(opts).round(6).must_equal 0.227188
   end
 
   describe "trajectory" do
