@@ -56,6 +56,8 @@ class Ballistics::Projectile
     end
   end
 
+  # Convert e.g. G1 to 1
+  #
   def self.drag_number(drag_function)
     DRAG_NUMBER.fetch(drag_function.to_s.downcase)
   end
@@ -110,7 +112,8 @@ class Ballistics::Projectile
     @drag_function = nil
   end
 
-  # return the preferred drag function if there is a BC available
+  # Return the preferred drag function if there is a BC available
+  #
   def drag_function
     return @drag_function if @drag_function
     preferred = DRAG_FUNCTION.fetch(@base)
@@ -121,17 +124,22 @@ class Ballistics::Projectile
     end
   end
 
-  # return the BC for the preferred drag function
+  # Return the BC for the preferred drag function
+  #
   def bc
     @ballistic_coefficient.fetch(self.drag_function)
   end
 
+  # Return params that can be used by Ballistics::Problem
+  #
   def params
     { drag_function: self.drag_function,
       drag_number: self.class.drag_number(self.drag_function),
       ballistic_coefficient: self.bc }
   end
 
+  # Return lines of text separated by newlines
+  #
   def multiline
     lines = ["PROJECTILE: #{@name}", "=========="]
     fields = {
