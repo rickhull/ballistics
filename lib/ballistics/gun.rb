@@ -100,4 +100,12 @@ class Ballistics::Gun
     end
     @cartridges
   end
+
+  def params
+    params = {
+      sight_height: self.sight_height
+    }
+    params[:zero_range] = self.zero_range if self.zero_range
+    params
+  end
 end

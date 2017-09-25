@@ -109,4 +109,11 @@ class Ballistics::Projectile
   def bc
     @ballistic_coefficient[self.drag_function]
   end
+
+  def params
+    params = {
+      drag_function: self.drag_function,
+      ballistic_coefficient: self.bc,
+    }
+  end
 end

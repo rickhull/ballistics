@@ -159,4 +159,9 @@ class Ballistics::Cartridge
       raise "not implemented yet"
     end
   end
+
+  def params
+    params = {
+    }
+  end
 end
