@@ -6,26 +6,27 @@ require 'ballistics/atmosphere'
 
 class Ballistics::Problem
   def self.simple(gun_id:, cart_id:, gun_family: nil)
-    self.new { |p|
-      if gun_family
-        p.gun = Ballistics::Gun.find(gun_family).fetch(gun_id)
-      else
-        p.gun = Ballistics::Gun.fetch_id(gun_id)
-      end
-      p.cartridge = p.gun.cartridges.fetch(cart_id)
-      p.projectile = p.cartridge.projectile
-    }
+    if gun_family
+      gun = Ballistics::Gun.find(gun_family).fetch(gun_id)
+    else
+      gun = Ballistics::Gun.fetch_id(gun_id)
+    end
+    cart = gun.cartridges.fetch(cart_id)
+    self.new(projectile: cart.projectile,
+             cartridge: cart,
+             gun: gun)
   end
 
   attr_accessor :projectile, :cartridge, :gun, :atmosphere
 
-  def initialize
-    @projectile = nil
-    @cartridge = nil
-    @gun = nil
-    @atmosphere = nil
-
-    yield self if block_given?
+  def initialize(projectile: nil,
+                 cartridge: nil,
+                 gun: nil,
+                 atmosphere: nil)
+    @projectile = projectile
+    @cartridge = cartridge
+    @gun = gun
+    @atmosphere = atmosphere
   end
 
   def params
