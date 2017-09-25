@@ -121,7 +121,7 @@ class Ballistics::Projectile
 
   # return the BC for the preferred drag function
   def bc
-    @ballistic_coefficient[self.drag_function]
+    @ballistic_coefficient.fetch(self.drag_function)
   end
 
   def params
