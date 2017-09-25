@@ -14,7 +14,7 @@ class Ballistics::Projectile
   OPTIONAL = {
     "sd"       => :float,
     "intended" => :string,
-    "base"     =>:string,
+    "base"     => :string,
     "desc"     => :string,
   }
   DRAG_FUNCTION = {
@@ -104,7 +104,9 @@ class Ballistics::Projectile
     (hsh.keys -
      MANDATORY.keys -
      BALLISTIC_COEFFICIENT.keys -
-     OPTIONAL.keys).each { |k| @extra[k] = hsh[k] }
+     OPTIONAL.keys).each { |k|
+      @extra[k] = hsh[k]
+    }
     @drag_function = nil
   end
 
