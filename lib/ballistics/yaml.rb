@@ -1,6 +1,7 @@
 require 'yaml'
 
 module Ballistics; end
+
 module Ballistics::YAML
   class UnknownType < RuntimeError; end
   class TypeMismatch < RuntimeError; end
