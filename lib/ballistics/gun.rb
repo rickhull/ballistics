@@ -102,10 +102,8 @@ class Ballistics::Gun
   end
 
   def params
-    params = {
-      sight_height: self.sight_height
-    }
-    params[:zero_range] = self.zero_range if self.zero_range
+    params = { sight_height: @sight_height }
+    params[:zero_range] = @zero_range if @zero_range
     params
   end
 
