@@ -41,8 +41,8 @@ module Ballistics
       "FPS" => "velocity",
       "MOA" => "moa_correction",
     }
-    items.keys.join("\t") + "\n" +
-      trj.map { |h| "%i\t%0.3f\t%0.1f\t%0.1f" % items.values.map { |i| h[i] }
+    items.keys.join("\t") + "\n" + trj.map { |h|
+      "%i\t%0.3f\t%0.1f\t%0.1f" % items.values.map { |i| h[i] }
     }.join("\n")
   end
 end
