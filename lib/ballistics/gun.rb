@@ -64,6 +64,12 @@ class Ballistics::Gun
     (hsh.keys - MANDATORY.keys - OPTIONAL.keys).each { |k|
       @extra[k] = hsh[k]
     }
+    @cartridges = []
+  end
+
+  def chamber=(new_chamber)
+    @cartridges = []
+    @chamber = new_chamber
   end
 
   def cartridge_file
@@ -72,8 +78,14 @@ class Ballistics::Gun
 
   # this will pull in cartridges and projectiles based on the gun chamber
   def cartridges
-    require 'ballistics/cartridge'
+    if @cartridges.empty?
+      require 'ballistics/cartridge'
 
-    Ballistics::Cartridge.find_with_projectiles(self.cartridge_file)
+      cartridge_file = CHAMBER_CARTRIDGE[@chamber] or
+        raise(ChamberNotFound, @chamber)
+      @cartridges =
+        Ballistics::Cartridge.find_with_projectiles(cartridge_file)
+    end
+    @cartridges
   end
 end

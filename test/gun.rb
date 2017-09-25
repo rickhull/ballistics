@@ -66,23 +66,20 @@ describe G do
     end
   end
 
-  describe "cartridge file" do
-    it "must recognize a known cartridge" do
-      valid = { "chamber" => "300 BLK" }
-      # sanity check
-      valid.values.each { |chamber|
-        G::CHAMBER_CARTRIDGE.key?(chamber).must_equal true
+  describe "cartridges" do
+    it "must recognize known cartridges" do
+      ["300 BLK"].each { |valid|
+        # sanity check
+        G::CHAMBER_CARTRIDGE.key?(valid).must_equal true
+        gun = G.new @test_data.merge("chamber" => valid)
+        gun.cartridges.must_be_kind_of Hash
       }
-      gun = G.new @test_data.merge(valid)
-      gun.cartridge_file.must_be_kind_of String
-      gun.cartridges.must_be_kind_of Hash
     end
   end
 
   it "must reject an unknown cartridge" do
     invalid = { "chamber" => "501 Levis" }
     gun = G.new @test_data.merge(invalid)
-    proc { gun.cartridge_file }.must_raise G::ChamberNotFound
     proc { gun.cartridges }.must_raise G::ChamberNotFound
   end
 end
