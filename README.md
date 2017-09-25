@@ -8,6 +8,5 @@
 
 cd ballistics
 gem install rake-compiler
-gem install rspec
 rake rebuild
 ```
