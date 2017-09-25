@@ -38,6 +38,18 @@ class Ballistics::Gun
     objects
   end
 
+  def self.find_id(id)
+    Ballistics::YAML::BUILT_IN.fetch('guns').each { |short_name|
+      object = self.find(short_name)[id]
+      return object if object
+    }
+    nil
+  end
+
+  def self.fetch_id(id)
+    self.find_id(id) or raise("id #{id} not found")
+  end
+
   attr_reader(*MANDATORY.keys)
   attr_reader(*OPTIONAL.keys)
   attr_reader(:yaml_data, :extra)

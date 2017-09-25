@@ -1,17 +1,19 @@
 require 'ballistics'
 require 'ballistics/gun'
 
-gun = Ballistics::Gun.find('rifles').fetch('ar15_300_blk')
+gun = Ballistics::Gun.fetch_id('ar15_300_blk')
 cart = gun.cartridges.fetch('barnes_110_vor_tx')
-mv = cart.mv(gun.barrel_length)
 proj = cart.projectile
+
+user_mv = nil
+user_zr = nil
 
 params = {
   drag_function: proj.drag_function,
   ballistic_coefficient: proj.bc,
-  velocity: cart.mv(gun.barrel_length),
+  velocity: user_mv || cart.mv(gun.barrel_length),
   sight_height: gun.sight_height,
-  zero_range: gun.zero_range,
+  zero_range: user_zr || gun.zero_range,
 }
 
 puts
