@@ -5,6 +5,14 @@ require 'ballistics/gun'
 require 'ballistics/atmosphere'
 
 class Ballistics::Problem
+  def self.simple(gun_id:, cart_id:)
+    self.new { |p|
+      p.gun = Ballistics::Gun.fetch_id(gun_id)
+      p.cartridge = p.gun.cartridges.fetch(cart_id)
+      p.projectile = p.cartridge.projectile
+    }
+  end
+
   attr_accessor :projectile, :cartridge, :gun, :atmosphere
 
   def initialize
