@@ -1,9 +1,9 @@
 require 'minitest/autorun'
 require 'ballistics/gun'
 
-G = Ballistics::Gun
+include Ballistics
 
-describe G do
+describe Gun do
   before do
     @test_data = {
       "name" => "Test Gun",
@@ -20,8 +20,8 @@ describe G do
 
   describe "new instance" do
     before do
-      @gun = G.new(@test_data)
-      @gun_ex = G.new(@test_data.merge(@extra_data))
+      @gun = Gun.new(@test_data)
+      @gun_ex = Gun.new(@test_data.merge(@extra_data))
     end
 
     it "must have a name" do
@@ -45,7 +45,7 @@ describe G do
     end
 
     it "must accept optional fields" do
-      G::OPTIONAL.keys.each { |k|
+      Gun::OPTIONAL.keys.each { |k|
         if @test_data.key?(k)
           @gun.send(k).must_equal @test_data[k]
         else
@@ -70,8 +70,8 @@ describe G do
     it "must recognize known cartridges" do
       ["300 BLK"].each { |valid|
         # sanity check
-        G::CHAMBER_CARTRIDGE.key?(valid).must_equal true
-        gun = G.new @test_data.merge("chamber" => valid)
+        Gun::CHAMBER_CARTRIDGE.key?(valid).must_equal true
+        gun = Gun.new @test_data.merge("chamber" => valid)
         gun.cartridges.must_be_kind_of Hash
       }
     end
@@ -79,7 +79,7 @@ describe G do
 
   it "must reject an unknown cartridge" do
     invalid = { "chamber" => "501 Levis" }
-    gun = G.new @test_data.merge(invalid)
-    proc { gun.cartridges }.must_raise G::ChamberNotFound
+    gun = Gun.new @test_data.merge(invalid)
+    proc { gun.cartridges }.must_raise Gun::ChamberNotFound
   end
 end

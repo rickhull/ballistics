@@ -1,9 +1,9 @@
 require 'minitest/autorun'
 require 'ballistics/cartridge'
 
-C = Ballistics::Cartridge
+include Ballistics
 
-describe C do
+describe Cartridge do
   before do
     @test_data = {
       "name" => "Test Cartridge",
@@ -20,7 +20,7 @@ describe C do
   describe "BARREL_LENGTH_REGEX" do
     it "must match and extract barrel lengths" do
       ["16_inch_fps", "1_inch_fps", "21_inch_fps"].each { |valid|
-        rgx = C::BARREL_LENGTH_REGEX
+        rgx = Cartridge::BARREL_LENGTH_REGEX
         matches = rgx.match valid
         matches.wont_be_nil
         matches.captures.wont_be_empty
@@ -30,22 +30,22 @@ describe C do
 
   describe "new instance" do
     before do
-      @cart = C.new(@test_data)
-      @cart_ex = C.new(@test_data.merge(@extra_data))
+      @cart = Cartridge.new(@test_data)
+      @cart_ex = Cartridge.new(@test_data.merge(@extra_data))
     end
 
     it "must raise with insufficient parameters" do
       params = {}
-      proc { C.new params }.must_raise Exception
+      proc { Cartridge.new params }.must_raise Exception
       # Accumulate the mandatory fields in params
-      # Note, a field matching C::BARREL_LENGTH_REGEX is also mandatory
-      C::MANDATORY.keys.each { |mfield|
+      # Note, a field matching Cartridge::BARREL_LENGTH_REGEX is also mandatory
+      Cartridge::MANDATORY.keys.each { |mfield|
         params[mfield] = @test_data[mfield]
-        proc { C.new params }.must_raise Exception
+        proc { Cartridge.new params }.must_raise Exception
       }
       mv = { "15_inch_fps" => 15 }
-      proc { C.new mv }.must_raise Exception
-      C.new(params.merge(mv)).must_be_kind_of C
+      proc { Cartridge.new mv }.must_raise Exception
+      Cartridge.new(params.merge(mv)).must_be_kind_of Cartridge
     end
 
     it "must have a name" do
@@ -79,7 +79,7 @@ describe C do
     end
 
     it "must accept optional fields" do
-      C::OPTIONAL.keys.each { |k|
+      Cartridge::OPTIONAL.keys.each { |k|
         if @test_data.key? k
           @cart.send(k).must_equal @test_data[k]
         else
@@ -103,12 +103,12 @@ describe C do
   describe "muzzle velocity" do
     before do
       # we need a valid case -- e.g. 300 BLK
-      @cart = C.new(@test_data.merge("case" => "300 BLK"))
+      @cart = Cartridge.new(@test_data.merge("case" => "300 BLK"))
     end
 
     it "must estimate an unknown muzzle velocity" do
       # sanity checks
-      C::BURN_LENGTH[@cart.case].wont_be_nil
+      Cartridge::BURN_LENGTH[@cart.case].wont_be_nil
       @test_data["20_inch_fps"].wont_be_nil
       @test_data["19_inch_fps"].must_be_nil
       @test_data["21_inch_fps"].must_be_nil

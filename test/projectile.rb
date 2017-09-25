@@ -1,9 +1,9 @@
 require 'minitest/autorun'
 require 'ballistics/projectile'
 
-P = Ballistics::Projectile
+include Ballistics
 
-describe P do
+describe Projectile do
   before do
     @test_data = {
       "name" => "Test Projectile",
@@ -25,44 +25,44 @@ describe P do
     it "must normalize common base specifiers" do
       ["flat", "fb", "f-b", "f_b", "f b",
        "flat-base", "flat_base", "flatbase", "flat base"].each { |valid|
-        P.base(valid).must_equal "flat"
-        P.base(valid.upcase).must_equal "flat"
+        Projectile.base(valid).must_equal "flat"
+        Projectile.base(valid.upcase).must_equal "flat"
       }
 
       ["boat", "bt", "b-t", "b_t", "b t",
        "boat-tail", "boat_tail", "boattail", "boat tail"].each { |valid|
-        P.base(valid).must_equal "boat"
-        P.base(valid.upcase).must_equal "boat"
+        Projectile.base(valid).must_equal "boat"
+        Projectile.base(valid.upcase).must_equal "boat"
       }
     end
 
     it "must reject invalid base specifiers" do
       ["flute", "fbase", "foo",
        "brat", "btail", "bar"].each { |invalid|
-        proc { P.base(invalid) }.must_raise RuntimeError
-        proc { P.base(invalid.upcase) }.must_raise RuntimeError
+        proc { Projectile.base(invalid) }.must_raise RuntimeError
+        proc { Projectile.base(invalid.upcase) }.must_raise RuntimeError
       }
     end
   end
 
   describe "new instance" do
     before do
-      @prj = P.new(@test_data)
-      @prj_ex = P.new(@test_data.merge(@extra_data))
+      @prj = Projectile.new(@test_data)
+      @prj_ex = Projectile.new(@test_data.merge(@extra_data))
     end
 
     it "must raise with insufficient parameters" do
       params = {}
-      proc { P.new params }.must_raise Exception
+      proc { Projectile.new params }.must_raise Exception
       # accumulate the mandatory fields in params
-      # note, one of P::BALLISTIC_COEFFICIENT is also mandatory
-      P::MANDATORY.keys.each { |mfield|
+      # note, one of Projectile::BALLISTIC_COEFFICIENT is also mandatory
+      Projectile::MANDATORY.keys.each { |mfield|
         params[mfield] = @test_data.fetch(mfield)
-        proc { P.new params }.must_raise Exception
+        proc { Projectile.new params }.must_raise Exception
       }
       bc = { 'g1' => 0.123 }
-      proc { P.new bc }.must_raise Exception
-      P.new(params.merge(bc)).must_be_kind_of P
+      proc { Projectile.new bc }.must_raise Exception
+      Projectile.new(params.merge(bc)).must_be_kind_of Projectile
     end
 
     it "must have a name" do
@@ -98,7 +98,7 @@ describe P do
     end
 
     it "must accept optional fields" do
-      P::OPTIONAL.keys.each { |k|
+      Projectile::OPTIONAL.keys.each { |k|
         if @test_data.key?(k)
           @prj.send(k).must_equal @test_data[k]
         else
@@ -119,16 +119,16 @@ describe P do
     end
   end
 
-  describe P::DRAG_FUNCTION do
-    it "must match keys to P.base" do
-      P::DRAG_FUNCTION.keys.each { |k|
-        P.base(k).must_equal k
+  describe Projectile::DRAG_FUNCTION do
+    it "must match keys to Projectile.base" do
+      Projectile::DRAG_FUNCTION.keys.each { |k|
+        Projectile.base(k).must_equal k
       }
     end
 
     it "must match values to C::BALLISTIC_COEFFICIENT" do
-      P::DRAG_FUNCTION.values.each { |v|
-        P::BALLISTIC_COEFFICIENT.key?(v).must_equal true
+      Projectile::DRAG_FUNCTION.values.each { |v|
+        Projectile::BALLISTIC_COEFFICIENT.key?(v).must_equal true
       }
     end
   end
@@ -151,13 +151,13 @@ describe P do
     end
 
     it "must use the preferred nomenclature" do
-      P.new(@f1).drag_function.must_equal "g1"
-      P.new(@f7).drag_function.must_equal "g7"
-      P.new(@f17).drag_function.must_equal "g1"
+      Projectile.new(@f1).drag_function.must_equal "g1"
+      Projectile.new(@f7).drag_function.must_equal "g7"
+      Projectile.new(@f17).drag_function.must_equal "g1"
 
-      P.new(@b1).drag_function.must_equal "g1"
-      P.new(@b7).drag_function.must_equal "g7"
-      P.new(@b17).drag_function.must_equal "g7"
+      Projectile.new(@b1).drag_function.must_equal "g1"
+      Projectile.new(@b7).drag_function.must_equal "g7"
+      Projectile.new(@b17).drag_function.must_equal "g7"
     end
   end
 end
