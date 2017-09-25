@@ -105,13 +105,18 @@ class Ballistics::Projectile
      MANDATORY.keys -
      BALLISTIC_COEFFICIENT.keys -
      OPTIONAL.keys).each { |k| @extra[k] = hsh[k] }
+    @drag_function = nil
   end
 
   # return the preferred drag function if there is a BC available
   def drag_function
+    return @drag_function if @drag_function
     preferred = DRAG_FUNCTION.fetch(@base)
-    return preferred if @ballistic_coefficient.key?(preferred)
-    @ballistic_coefficient.keys.first
+    if @ballistic_coefficient.key?(preferred)
+      @drag_function = preferred
+    else
+      @drag_function = @ballistic_coefficient.keys.first
+    end
   end
 
   # return the BC for the preferred drag function
