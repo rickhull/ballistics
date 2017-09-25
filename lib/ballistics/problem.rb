@@ -5,9 +5,13 @@ require 'ballistics/gun'
 require 'ballistics/atmosphere'
 
 class Ballistics::Problem
-  def self.simple(gun_id:, cart_id:)
+  def self.simple(gun_id:, cart_id:, gun_family: nil)
     self.new { |p|
-      p.gun = Ballistics::Gun.fetch_id(gun_id)
+      if gun_family
+        p.gun = Ballistics::Gun.find(gun_family).fetch(gun_id)
+      else
+        p.gun = Ballistics::Gun.fetch_id(gun_id)
+      end
       p.cartridge = p.gun.cartridges.fetch(cart_id)
       p.projectile = p.cartridge.projectile
     }
