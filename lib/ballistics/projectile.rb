@@ -125,7 +125,9 @@ class Ballistics::Projectile
   end
 
   def params
-    { drag_function: self.drag_function, ballistic_coefficient: self.bc }
+    { drag_function: self.drag_function,
+      drag_number: self.class.drag_number(self.drag_function),
+      ballistic_coefficient: self.bc }
   end
 
   def multiline
