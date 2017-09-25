@@ -21,6 +21,10 @@ class Ballistics::Projectile
     "flat" => "g1",
     "boat" => "g7",
   }
+  DRAG_NUMBER = {
+    "g1" => 1,
+    "g7" => 7,
+  }
 
   # Load a built-in YAML file and instantiate projectile objects
   # Return a hash of projectile objects keyed by projectile id (per the YAML)
@@ -50,6 +54,10 @@ class Ballistics::Projectile
     else
       raise "unknown base: #{candidate}"
     end
+  end
+
+  def self.drag_number(drag_function)
+    DRAG_NUMBER.fetch(drag_function.to_s.downcase)
   end
 
   attr_reader(*MANDATORY.keys)
