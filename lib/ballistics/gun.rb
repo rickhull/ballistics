@@ -108,4 +108,18 @@ class Ballistics::Gun
     params[:zero_range] = self.zero_range if self.zero_range
     params
   end
+
+  def multiline
+    lines = ["GUN: #{name}", "==="]
+    fields = {
+      "Chamber" => @chamber,
+      "Barrel length" => @barrel_length,
+      "Sight height" => @sight_height,
+    }
+    fields["Zero Range"] = @zero_range if @zero_range
+    fields.each { |name, val|
+      lines << [name.rjust(13, ' ' ), val].join(': ')
+    }
+    lines.join("\n")
+  end
 end

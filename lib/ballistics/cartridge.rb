@@ -160,8 +160,18 @@ class Ballistics::Cartridge
     end
   end
 
-  def params
-    params = {
+  def multiline
+    lines = ["CARTRIDGE: #{@name}", "========="]
+    fields = {
+      "Case" => @case,
     }
+    @muzzle_velocity.keys.sort.each { |bar_len|
+      fields["MV @ #{bar_len}"] = @muzzle_velocity[bar_len]
+    }
+    fields["Desc"] = @desc if @desc
+    fields.each { |name, val|
+      lines << [name.rjust(9, ' '), val].join(': ')
+    }
+    lines.join("\n")
   end
 end

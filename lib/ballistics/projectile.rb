@@ -111,9 +111,25 @@ class Ballistics::Projectile
   end
 
   def params
-    params = {
+    {
       drag_function: self.drag_function,
       ballistic_coefficient: self.bc,
     }
+  end
+
+  def multiline
+    lines = ["PROJECTILE: #{@name}", "=========="]
+    fields = {
+      "Caliber" => @cal,
+      "Grains" => @grains,
+    }
+    @ballistic_coefficient.each { |df, bc|
+      fields["BC (#{df.upcase})"] = bc
+    }
+    fields["Desc"] = @desc if @desc
+    fields.each { |name, val|
+      lines << [name.rjust(7, ' '), val].join(': ')
+    }
+    lines.join("\n")
   end
 end
