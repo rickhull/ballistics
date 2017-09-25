@@ -6,6 +6,7 @@ class Ballistics::Projectile
     "cal"    => :float,
     "grains" => :count,
   }
+  # one of these fields is mandatory
   BALLISTIC_COEFFICIENT = {
     "g1" => :float,
     "g7" => :float,
