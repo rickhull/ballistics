@@ -1,6 +1,29 @@
 require 'ballistics/ext'
 
 module Ballistics
+  TABLE_FIELDS = {
+    range: {
+      label: "Range",
+      format: "%i",
+    },
+    time: {
+      label: "Time",
+      format: "%0.3f",
+    },
+    velocity: {
+      label: "FPS",
+      format: "%0.1f",
+    },
+    moa_correction: {
+      label: "MOA",
+      format: "%0.1f",
+    },
+    path: {
+      label: "Path",
+      format: "%0.1f",
+    },
+  }
+
   def self.zero_angle(opts = {})
     opts[:y_intercept] ||= 0
     args = [
@@ -35,14 +58,18 @@ module Ballistics
 
   def self.table(opts = {})
     trj = opts[:trajectory] || self.trajectory(opts)
-    items = {
-      "Range" => "range",
-      "Time" => "time",
-      "FPS" => "velocity",
-      "MOA" => "moa_correction",
+
+    # Create an array of labels and format strings once
+    labels = []
+    formats = []
+    TABLE_FIELDS.each { |sym, hsh|
+      labels << hsh.fetch(:label)
+      formats << hsh.fetch(:format)
     }
-    items.keys.join("\t") + "\n" + trj.map { |h|
-      "%i\t%0.3f\t%0.1f\t%0.1f" % items.values.map { |i| h[i] }
+
+    # Iterate over trajectory structure and return a multiline string
+    labels.join("\t") + "\n" + trj.map { |hsh|
+      formats.join("\t") % TABLE_FIELDS.keys.map { |sym| hsh.fetch(sym.to_s) }
     }.join("\n")
   end
 end
