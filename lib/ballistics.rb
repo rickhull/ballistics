@@ -24,6 +24,25 @@ module Ballistics
     },
   }
 
+  def self.table(trajectory: nil, fields: nil, opts: {})
+    trj = trajectory || self.trajectory(opts)
+    fields ||= [:range, :time, :velocity, :path]
+
+    # Create an array of field labels and format strings once
+    labels = []
+    formats = []
+    fields.each { |sym|
+      cfg = TABLE_FIELDS.fetch(sym)
+      labels << cfg.fetch(:label)
+      formats << cfg.fetch(:format)
+    }
+
+    # Iterate over trajectory structure and return a multiline string
+    labels.join("\t") + "\n" + trj.map { |hsh|
+      formats.join("\t") % fields.map { |sym| hsh.fetch(sym.to_s) }
+    }.join("\n")
+  end
+
   def self.zero_angle(opts = {})
     opts[:y_intercept] ||= 0
     args = [
@@ -54,22 +73,5 @@ module Ballistics
     ].map { |arg| opts.fetch(arg) }
 
     Ballistics::Ext.trajectory(*args)
-  end
-
-  def self.table(opts = {})
-    trj = opts[:trajectory] || self.trajectory(opts)
-
-    # Create an array of labels and format strings once
-    labels = []
-    formats = []
-    TABLE_FIELDS.each { |sym, hsh|
-      labels << hsh.fetch(:label)
-      formats << hsh.fetch(:format)
-    }
-
-    # Iterate over trajectory structure and return a multiline string
-    labels.join("\t") + "\n" + trj.map { |hsh|
-      formats.join("\t") % TABLE_FIELDS.keys.map { |sym| hsh.fetch(sym.to_s) }
-    }.join("\n")
   end
 end

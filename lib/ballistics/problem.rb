@@ -94,7 +94,9 @@ class Ballistics::Problem
 
   # Return a multiline string based on trajectory data
   #
-  def table(opts = {})
-    Ballistics.table self.enrich opts
+  def table(trajectory: nil, fields: nil, opts: {})
+    Ballistics.table(trajectory: trajectory,
+                     fields: fields,
+                     opts: self.enrich(opts))
   end
 end
