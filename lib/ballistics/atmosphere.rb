@@ -72,6 +72,22 @@ class Ballistics::Atmosphere
     (temp - std_temp) / (RANKLINE_CORRECTION + std_temp)
   end
 
+  def self.translate(bc, altitude:, humidity:, pressure:, temp:)
+    bc.to_d *
+      self.altitude_factor(altitude) *
+      self.humidity_factor(temp, pressure, humidity) *
+      (self.temp_factor(temp, altitude) -
+       self.pressure_factor(pressure) + 1)
+  end
+
+  def self.icao
+    self.new ICAO
+  end
+
+  def self.army
+    self.new ARMY
+  end
+
   attr_reader(*MANDATORY.keys)
   attr_reader(:yaml_data, :extra)
 
@@ -85,10 +101,10 @@ class Ballistics::Atmosphere
   end
 
   def translate(ballistic_coefficient)
-    ballistic_coefficient.to_d *
-      self.class.altitude_factor(@altitude) *
-      self.class.humidity_factor(@temp, @pressure, @humidity) *
-      (self.class.temp_factor(@temp, @altitude) -
-       self.class.pressure_factor(@pressure) + 1)
+    self.class.translate(ballistic_coefficient,
+                         altitude: @altitude,
+                         humidity: @humidity,
+                         pressure: @pressure,
+                         temp: @temp)
   end
 end
