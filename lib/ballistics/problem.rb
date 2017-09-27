@@ -43,6 +43,9 @@ class Ballistics::Problem
     mine.merge!(@projectile.params) if @projectile
     mine.merge!(@gun.params) if @gun
     mine[:velocity] = @cartridge.mv(@gun.barrel_length) if @cartridge and @gun
+
+    # Set up the return hash
+    # opts overrides mine overrides DEFAULT
     ret = DEFAULTS.merge(mine.merge(opts))
 
     # validate drag function and replace with the numeral
@@ -72,10 +75,15 @@ class Ballistics::Problem
     Ballistics.zero_angle self.params opts
   end
 
+  # Return a data structure with trajectory data at every interval for the
+  #   specified range
+  #
   def trajectory(opts = {})
     Ballistics.trajectory self.params opts
   end
 
+  # Return a multiline string based on trajectory data
+  #
   def table(opts = {})
     Ballistics.table self.params opts
   end
