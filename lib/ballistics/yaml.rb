@@ -1,5 +1,6 @@
 require 'yaml'
 
+# We don't depend on the Ballistics module, so it may not have been loaded yet
 module Ballistics; end
 
 module Ballistics::YAML
