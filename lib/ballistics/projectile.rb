@@ -109,6 +109,11 @@ class Ballistics::Projectile
      OPTIONAL.keys).each { |k|
       @extra[k] = hsh[k]
     }
+
+    # Make sure @base and @drag_function are initialized so that
+    # self.drag_function works without warnings
+    #
+    @base ||= nil
     @drag_function = nil
   end
 
@@ -116,12 +121,14 @@ class Ballistics::Projectile
   #
   def drag_function
     return @drag_function if @drag_function
-    preferred = DRAG_FUNCTION.fetch(@base)
-    if @ballistic_coefficient.key?(preferred)
-      @drag_function = preferred
-    else
-      @drag_function = @ballistic_coefficient.keys.first
+    @drag_function = @ballistic_coefficient.keys.first
+    if @base
+      preferred = DRAG_FUNCTION.fetch(@base)
+      if @ballistic_coefficient.key?(preferred)
+        @drag_function = preferred
+      end
     end
+    @drag_function
   end
 
   # Return the BC for the preferred drag function
