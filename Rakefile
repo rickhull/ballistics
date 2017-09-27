@@ -42,7 +42,7 @@ begin
 
   # add gem building tasks
   Buildar.new do |b|
-    b.gemspec_file = 'ballistics_ng.gemspec'
+    b.gemspec_file = 'ballistics-ng.gemspec'
     b.version_file = 'VERSION'
     b.use_git = true
   end
