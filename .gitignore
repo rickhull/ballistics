@@ -1,1 +1,3 @@
 ext/ballistics/Makefile
+pkg/*
+tmp/*
