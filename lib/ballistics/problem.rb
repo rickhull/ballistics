@@ -49,10 +49,16 @@ class Ballistics::Problem
     ret = DEFAULTS.merge(mine.merge(opts))
 
     # validate drag function and replace with the numeral
-    ret[:drag_number] ||=
-      Ballistic::Projectile.drag_number(ret[:drag_function])
+    if ret[:drag_function] and !ret[:drag_number]
+      ret[:drag_number] =
+        Ballistics::Projectile.drag_number(ret[:drag_function])
+    end
+
     # apply atmospheric correction to ballistic coefficient
-    ret[:ballistic_coefficient] = self.adjust(ret[:ballistic_coefficient])
+    if ret[:ballistic_coefficient] and @atmosphere
+      ret[:ballistic_coefficient] =
+        @atmosphere.translate(ret[:ballistic_coefficient])
+    end
 
     ret
   end
@@ -66,11 +72,9 @@ class Ballistics::Problem
     lines.join("\n\n")
   end
 
-  # apply atmospheric correction to a ballistic coefficient
-  def adjust(bc)
-    @atmosphere ? @atmosphere.translate(bc) : bc
-  end
-
+  # Given a zero range and basic ballistics parameters
+  # Return the angle between sight axis and bore axis necessary to achieve zero
+  #
   def zero_angle(opts = {})
     Ballistics.zero_angle self.params opts
   end
