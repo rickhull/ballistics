@@ -1,12 +1,13 @@
 # Install
 
 ```
-# Note, this project is based on an abandoned gem and has not settled on
-# a gem name yet
+$ gem install ballistics-ng
+```
 
-# So first, clone this repo; then:
+# Usage
 
-cd ballistics
-gem install rake-compiler
-rake rebuild
+```ruby
+require 'ballistics'
+
+# do stuff
 ```
