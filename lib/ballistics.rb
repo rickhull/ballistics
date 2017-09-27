@@ -25,7 +25,7 @@ module Ballistics
   }
 
   def self.table(trajectory: nil, fields: nil, opts: {})
-    trj = trajectory || self.trajectory(opts)
+    trajectory ||= self.trajectory(opts)
     fields ||= [:range, :time, :velocity, :path]
 
     # Create an array of field labels and format strings once
@@ -38,7 +38,7 @@ module Ballistics
     }
 
     # Iterate over trajectory structure and return a multiline string
-    labels.join("\t") + "\n" + trj.map { |hsh|
+    labels.join("\t") + "\n" + trajectory.map { |hsh|
       formats.join("\t") % fields.map { |sym| hsh.fetch(sym.to_s) }
     }.join("\n")
   end
