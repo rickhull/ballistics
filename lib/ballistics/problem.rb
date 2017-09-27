@@ -38,7 +38,11 @@ class Ballistics::Problem
     @atmosphere = atmosphere
   end
 
-  def params(opts = {})
+  # Given a hash of specified options / params
+  # Return a hash of params enriched by DEFAULTS as well as any inferred
+  #   parameters from @projectile, @cartridge, @gun, and @atmosphere
+  #
+  def enrich(opts = {})
     mine = {}
     mine.merge!(@projectile.params) if @projectile
     mine.merge!(@gun.params) if @gun
@@ -63,7 +67,9 @@ class Ballistics::Problem
     ret
   end
 
-  def multiline
+  # Return a multiline string showing each component of the problem
+  #
+  def report
     lines = []
     lines << @gun.multiline if @gun
     lines << @cartridge.multiline if @cartridge
@@ -76,19 +82,19 @@ class Ballistics::Problem
   # Return the angle between sight axis and bore axis necessary to achieve zero
   #
   def zero_angle(opts = {})
-    Ballistics.zero_angle self.params opts
+    Ballistics.zero_angle self.enrich opts
   end
 
   # Return a data structure with trajectory data at every interval for the
   #   specified range
   #
   def trajectory(opts = {})
-    Ballistics.trajectory self.params opts
+    Ballistics.trajectory self.enrich opts
   end
 
   # Return a multiline string based on trajectory data
   #
   def table(opts = {})
-    Ballistics.table self.params opts
+    Ballistics.table self.enrich opts
   end
 end

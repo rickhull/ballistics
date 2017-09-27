@@ -4,6 +4,24 @@ require 'ballistics/problem'
 include Ballistics
 
 describe Problem do
+  describe "enrich" do
+    it "tolerates empty input" do
+      hsh = Problem.new.enrich
+      hsh.wont_be_empty
+      hsh.must_equal Problem::DEFAULTS
+    end
+
+    it "infers projectile params" do
+      prj = Projectile.new("name" => "test proj",
+                           "cal" => 0.223,
+                           "grains" => 100,
+                           "g7" => 0.445)
+      hsh = Problem.new(projectile: prj).enrich
+      hsh.wont_be_empty
+      prj.params.each { |sym, val| hsh[sym].must_equal val }
+    end
+  end
+
   describe "trajectory" do
     @problem = Problem.new(atmosphere: Atmosphere.new("altitude" => 5430,
                                                       "humidity" => 0.48,
