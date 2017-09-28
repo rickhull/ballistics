@@ -32,36 +32,53 @@ $ gem install ballistics-ng
 # Usage
 
 ```ruby
-require 'ballistics'
+require 'ballistics/problem'
 
-describe Ballistics do
-  it "calculates the expected zero angle" do
-    opts = {
-      drag_number: 1,
-      ballistic_coefficient: 0.5,
-      velocity: 1200,
-      sight_height: 1.6,
-      zero_range: 100,
-    }
-    Ballistics.zero_angle(opts).round(6).must_equal 0.227188
-  end
+prob = Ballistics::Problem.simple(gun_family: 'rifles',
+                                  gun_id: 'ar15_300_blk',
+			          cart_id: 'barnes_110_vor_tx')
 
-  it "calculates the expected trajectory" do
-    opts = {
-      drag_number: 1,
-      ballistic_coefficient: 0.5,
-      velocity: 2250,
-      sight_height: 2.6,
-      zero_range: 50,
-      wind_speed: 10,
-      wind_angle: 90,
-      max_range: 1000,
-      interval: 25,
-      shooting_angle: 0,
-    }
-    Ballistics.trajectory(opts).must_be_kind_of Array
-  end
-end
+puts prob.report
+puts
+puts
+puts prob.table
+```
 
-# do stuff
+```
+$ ruby -Ilib examples/table.rb
+
+GUN: AR-15 with 10.5 inch barrel (300 BLK)
+===
+      Chamber: 300 BLK
+      Barrel length: 10.5
+       Sight height: 2.6
+          Zero Range: 50
+
+CARTRIDGE: Barnes 300 BLK 110gr VOR-TX
+=========
+     Case: 300 BLK
+       MV @ 10: 2180
+         MV @ 16: 2350
+	      Desc: Hunting round for penetration and expansion
+
+PROJECTILE: Barnes 110gr TAC-TX 300 BLK
+==========
+Caliber: 0.308
+ Grains: 110
+ BC (G1): 0.289
+    Desc: Black polymer tip, copper bullet
+
+
+Range   Time    FPS     Path
+0       0.000   2180.0  -2.6
+50      0.072   2043.1  -0.0
+100     0.147   1911.8  0.5
+150     0.229   1786.0  -1.4
+200     0.316   1666.5  -6.0
+250     0.409   1553.7  -13.7
+300     0.509   1448.3  -25.1
+350     0.616   1351.2  -40.6
+400     0.731   1263.9  -60.9
+450     0.854   1187.7  -86.6
+500     0.983   1123.6  -118.5
 ```
