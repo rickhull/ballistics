@@ -73,14 +73,29 @@ Range   Time    FPS     Path
 
 # Features
 
-* `Ballistics::Problem` -- specify a gun and cartridge (etc)
-  for meaningful results
-* `Ballistics::Atmosphere` -- specify altitude, humidity, pressure, and temp;
-  Army and ICAO atmospheres included at no charge
-* `Ballistics::Gun` -- determines sight height, zero angle, chamber,
-   muzzle velocity per barrel length; determines the cartridge by chamber
-* `Ballistics::Cartridge` -- organized by chamber (e.g. *300 BLK*);
-  consists of a projectile (see below) along with case (determines the chamber)
-  and possibly powder charge (and primer) details
-* `Ballistics::Projectile` -- organized by chamber;
-  determines caliber, grains, ballistic coefficient, and drag function
+## `Ballistics::Problem`
+
+* specify a gun and cartridge (etc) for meaningful results
+
+## `Ballistics::Atmosphere`
+
+* specify altitude, humidity, pressure, and temp
+* Army and ICAO atmospheres included at no charge
+
+## `Ballistics::Gun`
+
+* determines sight height, zero angle, chamber,
+  muzzle velocity per barrel length
+* determines the cartridge by chamber
+
+## `Ballistics::Cartridge`
+
+* organized by chamber (e.g. *300 BLK*);
+* *projectile* (see below)
+* *case* (determines the chamber)
+* optionally: *powder charge* (and *primer*) details
+
+## `Ballistics::Projectile`
+
+* organized by chamber;
+* determines caliber, grains, ballistic coefficient, and drag function
