@@ -90,12 +90,12 @@ Range   Time    FPS     Path
 
 ## `Ballistics::Cartridge`
 
-* organized by chamber (e.g. *300 BLK*);
+* organized by chamber (e.g. *300 BLK*)
 * *projectile* (see below)
 * *case* (determines the chamber)
 * optionally: *powder charge* (and *primer*) details
 
 ## `Ballistics::Projectile`
 
-* organized by chamber;
+* organized by chamber
 * determines caliber, grains, ballistic coefficient, and drag function
