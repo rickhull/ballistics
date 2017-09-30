@@ -1,5 +1,5 @@
 #include <ruby.h>
-#include <gnu_ballistics.h>
+#include "include/gnu_ballistics.h"
 
 VALUE method_zero_angle(VALUE self,
 			VALUE drag_function,
