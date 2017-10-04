@@ -99,3 +99,9 @@ Range   Time    FPS     Path
 
 * organized by chamber
 * determines caliber, grains, ballistic coefficient, and drag function
+
+## Built In YAML Components
+
+* [guns](https://github.com/rickhull/ballistics/tree/master/lib/ballistics/guns)
+* [cartridges](https://github.com/rickhull/ballistics/tree/master/lib/ballistics/cartridges)
+* [projectiles](https://github.com/rickhull/ballistics/tree/master/lib/ballistics/projectiles)
