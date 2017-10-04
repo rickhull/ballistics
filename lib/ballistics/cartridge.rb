@@ -95,6 +95,7 @@ class Ballistics::Cartridge
     @yaml_data = hsh
     MANDATORY.each { |field, type|
       val = hsh.fetch(field)
+      val = val.to_s if field == "case" and type == :string
       Ballistics::YAML.check_type!(val, type)
       self.instance_variable_set("@#{field}", val)
     }

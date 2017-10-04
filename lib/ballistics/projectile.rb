@@ -85,6 +85,7 @@ class Ballistics::Projectile
     OPTIONAL.each { |field, type|
       if hsh.key?(field)
         val = hsh[field]
+        val = val.to_s if field == "intended" and type == :string
         Ballistics::YAML.check_type!(val, type)
         if field == "base"
           @base = self.class.base(val)
