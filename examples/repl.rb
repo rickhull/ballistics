@@ -97,4 +97,5 @@ pp proj = cart.projectile
    "base"=>"flat"}>
 EOF
 
-# p cart.mv
+cart.mv(gun.barrel_length)
+# => 3350
