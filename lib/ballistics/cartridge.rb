@@ -22,6 +22,9 @@ class Ballistics::Cartridge
     '.308' => 24,
   }
 
+  # 1% FPS gain/loss per inch of barrel length
+  FPS_INCH_FACTOR = 0.01
+
   # Load a built-in YAML file and instantiate cartridge objects
   # Return a hash of cartridge objects keyed by the cartridge id as in the YAML
   #
@@ -74,13 +77,68 @@ class Ballistics::Cartridge
   #   and a known burn length
   # Guess a muzzle velocity for an unknown length
   #
-  def self.guess_mv(known_length, known_mv, burn_length, unknown_length)
-    inch_diff = known_length - unknown_length
-    known_bf = burn_length.to_f / known_length
-    unknown_bf = burn_length.to_f / unknown_length
-    # assume 1% FPS per inch; adjust for burn_length and take the average
-    fps_per_inch = known_mv * (known_bf + unknown_bf) / 2 / 100
+  def self.guess_mv(known_length, known_mv, barrel_length, burn_length = nil)
+    inch_diff = known_length - barrel_length
+    burn_factor = self.burn_factor(burn_length, known_length, barrel_length)
+    fps_per_inch = known_mv * burn_factor * FPS_INCH_FACTOR
     known_mv - inch_diff * fps_per_inch
+  end
+
+  # Given at least two data points (barrel_length, muzzle_velocity)
+  # Estimate a muzzle velocity for an unknown length assuming the relationship
+  #   between barrel length and muzzle velocity is linear
+  def self.estimate_mv(known_mvs, barrel_length, burn_length = nil)
+    if !known_mvs.is_a?(Hash) or known_mvs.empty?
+      raise(TypeError, "populated Hash expected")
+    end
+    if known_mvs.length == 1
+      return self.guess_mv(known_mvs.keys.first,
+                           known_mvs.values.first,
+                           burn_length,
+                           barrel_length)
+    end
+    known_lengths = known_mvs.keys.sort
+    lb = known_lengths.first
+    ub = known_lengths.last
+    if lb < barrel_length and barrel_length < ub
+      # we can interpolate
+      known_lengths.each { |len|
+        if barrel_length < len
+          ub = len
+          break
+        end
+        lb = len
+      }
+    else
+      # we must extrapolate
+      if barrel_length < lb
+        lb, ub = known_lengths[0], known_lengths[1]
+      else
+        lb, ub = known_lengths[-2], known_lengths[-1]
+      end
+    end
+    lv, uv = known_mvs.fetch(lb), known_mvs.fetch(ub)
+
+    # TODO: consider adjusting m by burn_factor()
+    m, b = self.linear_coefficients(lb, ub, lv, uv)
+    m * barrel_length + b
+  end
+
+  # muzzle velocity curve is steeper below burn length and shallower above it
+  # the burn_factor can correct a linear prediction if we know the burn length
+  # take the average of the known and unknown
+  def self.burn_factor(burn_length, known_length, barrel_length)
+    return 1 unless burn_length
+    (burn_length.to_f / known_length + burn_length.to_f / barrel_length) / 2
+  end
+
+  # Assume: y = mx + b
+  # Given 2 points, return m and b
+  #
+  def self.linear_coefficients(x1, x2, y1, y2)
+    m = (y1 - y2) / (x1 - x2)
+    b = y1 - m * x1
+    [m, b]
   end
 
   # Match and extract e.g. "16" from "16_inch_fps"
@@ -131,26 +189,12 @@ class Ballistics::Cartridge
 
   # estimate muzzle velocity for a given barrel length
   def mv(barrel_length, burn_length = nil)
+    # is MV already known?
     [barrel_length, barrel_length.floor, barrel_length.ceil].each { |candidate|
       mv = @muzzle_velocity[candidate]
       return mv if mv
     }
-    burn_length ||= BURN_LENGTH.fetch(@case)
-    known_lengths = @muzzle_velocity.keys
-
-    case known_lengths.length
-    when 0
-      raise "no muzzle velocities available"
-    when 1
-      known_length = known_lengths.first
-      self.class.guess_mv(known_length,
-                          @muzzle_velocity[known_length],
-                          burn_length,
-                          barrel_length)
-    else
-      # ok, now we need to interpolate if we can
-      raise "not implemented yet"
-    end
+    self.class.estimate_mv(@muzzle_velocity, barrel_length, BURN_LENGTH[@case])
   end
 
   def multiline
