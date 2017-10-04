@@ -49,3 +49,10 @@ begin
 rescue LoadError
   # ok
 end
+
+desc "Run example scripts"
+task :examples do
+  Dir['examples/**/*.rb'].each { |fn|
+    sh "ruby -Ilib #{fn}"
+  }
+end
