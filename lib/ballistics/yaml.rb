@@ -37,7 +37,7 @@ module Ballistics::YAML
   def self.find(klass:, file: nil, id: nil)
     candidates = {}
     objects = {}
-    yd = klass::YAML_DIR
+    yd = klass::YAML_DIR or raise("no YAML_DIR for #{klass}")
     if file
       candidates = self.load_built_in(yd, file)
     else
