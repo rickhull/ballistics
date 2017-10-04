@@ -25,29 +25,29 @@ class Ballistics::Gun
   # Load a built-in YAML file and instantiate gun objects
   # Return a hash of gun objects keyed by gun id (per the YAML)
   #
-  def self.find(short_name)
+  def self.find(file: nil, id: nil)
     objects = {}
-    Ballistics::YAML.load_built_in('guns', short_name).each { |id, hsh|
-      obj = self.new(hsh)
-      if block_given?
-        objects[id] = obj if yield obj
-      else
-        objects[id] = obj
-      end
-    }
-    objects
-  end
-
-  def self.find_id(id)
-    Ballistics::YAML::BUILT_IN.fetch('guns').each { |short_name|
-      object = self.find(short_name)[id]
-      return object if object
-    }
-    nil
-  end
-
-  def self.fetch_id(id)
-    self.find_id(id) or raise("id #{id} not found")
+    if file
+      candidates = Ballistics::YAML.load_built_in('guns', file)
+    else
+      candidates = {}
+      Ballistics::YAML::BUILT_IN.fetch('guns').each { |f|
+        candidates.merge!(Ballistics::YAML.load_built_in('guns', f))
+      }
+    end
+    if id
+      self.new candidates.fetch id
+    else
+      candidates.each { |cid, hsh|
+        obj = self.new hsh
+        if block_given?
+          objects[cid] = obj if yield obj
+        else
+          objects[cid] = obj
+        end
+      }
+      objects
+    end
   end
 
   attr_reader(*MANDATORY.keys)

@@ -15,11 +15,7 @@ class Ballistics::Problem
   }
 
   def self.simple(gun_id:, cart_id:, gun_family: nil)
-    if gun_family
-      gun = Ballistics::Gun.find(gun_family).fetch(gun_id)
-    else
-      gun = Ballistics::Gun.fetch_id(gun_id)
-    end
+    gun = Ballistics::Gun.find(file: gun_family, id: gun_id)
     cart = gun.cartridges.fetch(cart_id)
     self.new(projectile: cart.projectile,
              cartridge: cart,
