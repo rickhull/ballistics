@@ -3,6 +3,8 @@ require 'ballistics/yaml'
 class Ballistics::Gun
   class ChamberNotFound < KeyError; end
 
+  YAML_DIR = 'guns'
+
   MANDATORY = {
     "name"          => :string,
     "chamber"       => :string,
@@ -26,28 +28,7 @@ class Ballistics::Gun
   # Return a hash of gun objects keyed by gun id (per the YAML)
   #
   def self.find(file: nil, id: nil)
-    objects = {}
-    if file
-      candidates = Ballistics::YAML.load_built_in('guns', file)
-    else
-      candidates = {}
-      Ballistics::YAML::BUILT_IN.fetch('guns').each { |f|
-        candidates.merge!(Ballistics::YAML.load_built_in('guns', f))
-      }
-    end
-    if id
-      self.new candidates.fetch id
-    else
-      candidates.each { |cid, hsh|
-        obj = self.new hsh
-        if block_given?
-          objects[cid] = obj if yield obj
-        else
-          objects[cid] = obj
-        end
-      }
-      objects
-    end
+    Ballistics::YAML.find(klass: self, file: file, id: id)
   end
 
   attr_reader(*MANDATORY.keys)

@@ -1,6 +1,8 @@
 require 'ballistics/yaml'
 
 class Ballistics::Projectile
+  YAML_DIR = 'projectiles'
+
   MANDATORY = {
     "name"   => :string,
     "cal"    => :float,
@@ -29,17 +31,8 @@ class Ballistics::Projectile
   # Load a built-in YAML file and instantiate projectile objects
   # Return a hash of projectile objects keyed by projectile id (per the YAML)
   #
-  def self.find(short_name)
-    objects = {}
-    Ballistics::YAML.load_built_in('projectiles', short_name).each { |id, hsh|
-      obj = self.new(hsh)
-      if block_given?
-        objects[id] = obj if yield obj
-      else
-        objects[id] = obj
-      end
-    }
-    objects
+  def self.find(file: nil, id: nil)
+    Ballistics::YAML.find(klass: self, file: file, id: id)
   end
 
   # Normalize common flat-base and boat-tail terms to flat or boat

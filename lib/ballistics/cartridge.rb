@@ -1,6 +1,8 @@
 require 'ballistics/yaml'
 
 class Ballistics::Cartridge
+  YAML_DIR = 'cartridges'
+
   MANDATORY = {
     "name" => :string,
     "case" => :string,
@@ -23,17 +25,8 @@ class Ballistics::Cartridge
   # Load a built-in YAML file and instantiate cartridge objects
   # Return a hash of cartridge objects keyed by the cartridge id as in the YAML
   #
-  def self.find(short_name)
-    objects = {}
-    Ballistics::YAML.load_built_in('cartridges', short_name).each { |id, hsh|
-      obj = self.new(hsh)
-      if block_given?
-        objects[id] = obj if yield obj
-      else
-        objects[id] = obj
-      end
-    }
-    objects
+  def self.find(file: nil, id: nil)
+    Ballistics::YAML.find(klass: self, file: file, id: id)
   end
 
   # This is a helper method to perform loading of cartridges and projectiles
@@ -43,9 +36,8 @@ class Ballistics::Cartridge
   #
   def self.find_with_projectiles(chamber)
     require 'ballistics/projectile'
-
-    cartridges = self.find(chamber)
-    projectiles = Ballistics::Projectile.find(chamber)
+    cartridges = self.find(file: chamber)
+    projectiles = Ballistics::Projectile.find(file: chamber)
     self.cross_ref(cartridges, projectiles)
     cartridges
   end
