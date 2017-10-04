@@ -1,0 +1,22 @@
+# MANDATORY
+# $id:
+#   name:
+#   case:
+#   projectile: # ref to projectiles/$case.yaml
+# AT LEAST ONE OF
+#   16_inch_fps:
+#   20_inch_fps:
+#   24_inch_fps:
+# OPTIONAL
+#   desc:
+#   powder_type:
+#   powder_grains:
+#   $n_inch_fps:
+
+test_cartridge:
+  name: test 5.56 cartridge
+  case: 5.56
+  projectile: test_projectile
+  16_inch_fps: 3000
+  desc: 5.56 test_cartridge with a test_projectile
+  5_inch_fps: 2000

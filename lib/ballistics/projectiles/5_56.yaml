@@ -1,0 +1,22 @@
+# MANDATORY
+# $id:
+#   name:
+#   cal:
+#   grains:
+# AT LEAST ONE OF
+#   g1:
+#   g7:
+# OPTIONAL
+#   desc:
+#   intended: # e.g. 5.56
+#   base: flat|boat
+#   sd:
+
+test_projectile:
+  name: The thing that goes out
+  cal: 50
+  grains: 100
+  g1: 1.5
+  desc: A strange thing indeed
+  intended: 5.56
+  base: flat
