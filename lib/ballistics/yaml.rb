@@ -34,6 +34,32 @@ module Ballistics::YAML
     end
   end
 
+  def self.find(klass:, file: nil, id: nil)
+    candidates = {}
+    objects = {}
+    yd = klass::YAML_DIR
+    if file
+      candidates = self.load_built_in(yd, file)
+    else
+      BUILT_IN.fetch(yd).each { |f|
+        candidates.merge!(self.load_built_in(yd, f))
+      }
+    end
+    if id
+      klass.new candidates.fetch id
+    else
+      candidates.each { |cid, hsh|
+        obj = klass.new hsh
+        if block_given?
+          objects[cid] = obj if yield obj
+        else
+          objects[cid] = obj
+        end
+      }
+      objects
+    end
+  end
+
   def self.check_type?(val, type)
     case type
     when :string, :reference
