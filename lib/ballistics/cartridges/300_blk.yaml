@@ -2,7 +2,7 @@
 # $id:
 #   name:
 #   case:
-#   projectile: # ref to projectiles.yaml
+#   projectile: # ref to projectiles/$case.yaml
 # AT LEAST ONE OF
 #   16_inch_fps:
 #   20_inch_fps:
