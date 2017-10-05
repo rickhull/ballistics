@@ -97,5 +97,6 @@ pp proj = cart.projectile
    "base"=>"flat"}>
 EOF
 
-cart.mv(gun.barrel_length)
-# => 3350
+puts "Muzzle velocity for #{gun.barrel_length}" + '" ' +
+     "barrel: #{cart.mv(gun.barrel_length)} FPS"
+# Muzzle velocity for 20" barrel: 3350 FPS
