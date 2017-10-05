@@ -20,3 +20,33 @@ test_cartridge:
   16_inch_fps: 3000
   desc: 5.56 test_cartridge with a test_projectile
   5_inch_fps: 2000
+
+m193:
+  name: M193 FMJ 55gr 5.56
+  case: 5.56
+  projectile: M193
+  20_inch_fps: 3250
+  16_inch_fps: 3050
+  desc: |
+    * Standard 55gr M193 ball ammo (FMJ)
+    * 9-12" twist; 7" OK
+    * 52-55k PSI chamber pressure
+  powder_type: imr4475
+
+federal_xm193:
+  name: M193 FMJ 55gr 5.56
+  case: 5.56
+  projectile: M193
+  20_inch_fps: 3000
+  16_inch_fps: 3000
+  desc: |
+    STUFF
+
+#SMK_67gr:
+# stuff
+
+#SMK_72gr:
+# things
+
+#SMK_77gr:
+# wut
