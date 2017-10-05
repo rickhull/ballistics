@@ -53,6 +53,8 @@ end
 desc "Run example scripts"
 task :examples do
   Dir['examples/**/*.rb'].each { |fn|
+    puts
     sh "ruby -Ilib #{fn}"
+    puts
   }
 end
