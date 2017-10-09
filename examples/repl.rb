@@ -31,10 +31,10 @@ EOF
 c = gun.cartridges
 # => # a big hash ...
 
-c.keys
-# ["test_cartridge"]
+p c.keys
+# ["test_cartridge", "m193", "federal_xm193"]
 
-cart = c["test_cartridge"]
+cart = c["m193"]
 # => #<Ballistics::Cartridge ...
 
 pp cart
