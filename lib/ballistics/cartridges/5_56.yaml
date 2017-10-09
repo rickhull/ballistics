@@ -24,7 +24,7 @@ test_cartridge:
 m193:
   name: M193 FMJ 55gr 5.56
   case: 5.56
-  projectile: M193
+  projectile: m193
   20_inch_fps: 3250
   16_inch_fps: 3050
   desc: |
@@ -36,7 +36,7 @@ m193:
 federal_xm193:
   name: M193 FMJ 55gr 5.56
   case: 5.56
-  projectile: M193
+  projectile: m193
   20_inch_fps: 3000
   16_inch_fps: 3000
   desc: |

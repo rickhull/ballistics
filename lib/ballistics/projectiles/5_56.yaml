@@ -20,3 +20,23 @@ test_projectile:
   desc: A strange thing indeed
   intended: 5.56
   base: flat
+
+m193:
+  name: M193 55gr FMJ
+  cal: 5.56
+  grains: 55
+  g1: 0.269 # Federal's G1
+  g7: 0.120
+  desc: M193 55gr FMJ
+  intended: 5.56
+  base: boat
+
+federal_xm193:
+  name: Federal XM193 55gr FMJ
+  cal: 5.56
+  grains: 55
+  g1: 0.269
+  g7: 0.120 # M193's G7
+  desc: Federal XM193 .223 5.56 FMJ
+  intended: 5.56
+  base: boat
