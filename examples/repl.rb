@@ -31,7 +31,7 @@ EOF
 c = gun.cartridges
 # => # a big hash ...
 
-p c.keys
+c.keys
 # ["test_cartridge", "m193", "federal_xm193"]
 
 cart = c["m193"]
@@ -39,64 +39,76 @@ cart = c["m193"]
 
 pp cart
 <<EOF
-#<Ballistics::Cartridge:0x00556b5b0ac050
+#<Ballistics::Cartridge:0x005568e9340e70
  @case="5.56",
- @desc="5.56 test_cartridge with a test_projectile",
+ @desc=
+  "* Standard 55gr M193 ball ammo (FMJ)\n" +
+  "* 9-12\" twist; 7\" OK\n" +
+  "* 52-55k PSI chamber pressure\n",
  @extra={},
- @muzzle_velocity={16=>3000, 5=>2000},
- @name="test 5.56 cartridge",
+ @muzzle_velocity={20=>3250, 16=>3050},
+ @name="M193 FMJ 55gr 5.56",
+ @powder_type="imr4475",
  @projectile=
-  #<Ballistics::Projectile:0x00556b5b0a4918
-   @ballistic_coefficient={"g1"=>1.5},
-   @base="flat",
-   @cal=50,
-   @desc="A strange thing indeed",
+  #<Ballistics::Projectile:0x005568e933c780
+   @ballistic_coefficient={"g1"=>0.269, "g7"=>0.12},
+   @base="boat",
+   @cal=5.56,
+   @desc="M193 55gr FMJ",
    @drag_function=nil,
    @extra={},
-   @g1=1.5,
-   @grains=100,
+   @g1=0.269,
+   @g7=0.12,
+   @grains=55,
    @intended="5.56",
-   @name="The thing that goes out",
+   @name="M193 55gr FMJ",
    @yaml_data=
-    {"name"=>"The thing that goes out",
-     "cal"=>50,
-     "grains"=>100,
-     "g1"=>1.5,
-     "desc"=>"A strange thing indeed",
+    {"name"=>"M193 55gr FMJ",
+     "cal"=>5.56,
+     "grains"=>55,
+     "g1"=>0.269,
+     "g7"=>0.12,
+     "desc"=>"M193 55gr FMJ",
      "intended"=>5.56,
-     "base"=>"flat"}>,
+     "base"=>"boat"}>,
  @yaml_data=
-  {"name"=>"test 5.56 cartridge",
+  {"name"=>"M193 FMJ 55gr 5.56",
    "case"=>5.56,
-   "projectile"=>"test_projectile",
-   "16_inch_fps"=>3000,
-   "desc"=>"5.56 test_cartridge with a test_projectile",
-   "5_inch_fps"=>2000}>
+   "projectile"=>"m193",
+   "20_inch_fps"=>3250,
+   "16_inch_fps"=>3050,
+   "desc"=>
+    "* Standard 55gr M193 ball ammo (FMJ)\n" +
+    "* 9-12\" twist; 7\" OK\n" +
+    "* 52-55k PSI chamber pressure\n",
+   "powder_type"=>"imr4475"}>
 EOF
 
 pp proj = cart.projectile
 <<EOF
-#<Ballistics::Projectile:0x00561bc7aff210
- @ballistic_coefficient={"g1"=>1.5},
- @base="flat",
- @cal=50,
- @desc="A strange thing indeed",
+#<Ballistics::Projectile:0x005568e933c780
+ @ballistic_coefficient={"g1"=>0.269, "g7"=>0.12},
+ @base="boat",
+ @cal=5.56,
+ @desc="M193 55gr FMJ",
  @drag_function=nil,
  @extra={},
- @g1=1.5,
- @grains=100,
+ @g1=0.269,
+ @g7=0.12,
+ @grains=55,
  @intended="5.56",
- @name="The thing that goes out",
+ @name="M193 55gr FMJ",
  @yaml_data=
-  {"name"=>"The thing that goes out",
-   "cal"=>50,
-   "grains"=>100,
-   "g1"=>1.5,
-   "desc"=>"A strange thing indeed",
+  {"name"=>"M193 55gr FMJ",
+   "cal"=>5.56,
+   "grains"=>55,
+   "g1"=>0.269,
+   "g7"=>0.12,
+   "desc"=>"M193 55gr FMJ",
    "intended"=>5.56,
-   "base"=>"flat"}>
+   "base"=>"boat"}>
 EOF
 
 puts "Muzzle velocity for #{gun.barrel_length}" + '" ' +
      "barrel: #{cart.mv(gun.barrel_length)} FPS"
-# Muzzle velocity for 20" barrel: 3350 FPS
+# Muzzle velocity for 20" barrel: 3250 FPS
