@@ -75,7 +75,9 @@ class Ballistics::Projectile
     BALLISTIC_COEFFICIENT.each { |field, type|
       if hsh.key?(field)
         val = hsh[field]
-        Ballistics::YAML.check_type!(val, type)
+        if !Ballistics::YAML.check_type?(val, type)
+          raise(TypeError, "#{val} (#{field}) is not #{type}")
+        end
         self.instance_variable_set("@#{field}", val)
         @ballistic_coefficient[field] = val
       end
