@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/rickhull/ballistics.svg)](https://travis-ci.org/rickhull/ballistics)
+[![Gem Version](https://badge.fury.io/rb/ballistics-ng.svg)](http://badge.fury.io/rb/ballistics-ng)
+[![Dependency Status](https://gemnasium.com/rickhull/ballistics.svg)](https://gemnasium.com/rickhull/ballistics)
 
 # Ballistics-NG (next gen)
 
