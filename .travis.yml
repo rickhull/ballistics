@@ -5,6 +5,6 @@ rvm:
   - 2.4
   - ruby-head
   - ruby
-install: gem install minitest
+install: gem install minitest rake-compiler; rake compile
 script: rake
 sudo: required
