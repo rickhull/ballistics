@@ -14,7 +14,7 @@ pp gun
 <<EOF
 #<Ballistics::Gun:0x0055a54a0bed58
  @barrel_length=20,
- @cartridges=[],
+ @cartridges={},
  @chamber="5.56",
  @extra={},
  @name="Standard M16 rifle with 20 inch barrel (5.56)",

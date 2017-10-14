@@ -57,11 +57,11 @@ class Ballistics::Gun
     (hsh.keys - MANDATORY.keys - OPTIONAL.keys).each { |k|
       @extra[k] = hsh[k]
     }
-    @cartridges = []
+    @cartridges = {}
   end
 
   def chamber=(new_chamber)
-    @cartridges = []
+    @cartridges = {}
     @chamber = new_chamber
   end
 
