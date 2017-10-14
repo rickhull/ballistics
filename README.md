@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/rickhull/ballistics.svg)](https://travis-ci.org/rickhull/ballistics)
+
 # Ballistics-NG (next gen)
 
 This gem consists of a C extension which wraps the "GNU Ballistics" C library
