@@ -28,7 +28,7 @@ Rakefile
 examples/table.rb
 ext/ballistics/ext.c
 ext/ballistics/extconf.rb
-ext/ballistics/gnu_ballistics.h
+ext/ballistics/include/gnu_ballistics.h
 test/atmosphere.rb
 test/ballistics.rb
 test/cartridge.rb
