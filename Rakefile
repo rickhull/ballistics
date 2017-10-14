@@ -1,19 +1,26 @@
-begin
-  require "rake/testtask"
+require "rake/testtask"
 
-  # add test task
-  Rake::TestTask.new do |t|
-    t.test_files = FileList['test/**/*.rb']
-  end
-  desc "Run minitest tests"
-
-  task default: :test
-
-  @test_task = true
-rescue Exception => e
-  warn "testtask error: #{e}"
-  @test_task = false
+# add test task
+Rake::TestTask.new do |t|
+  t.test_files = FileList['test/**/*.rb']
 end
+desc "Run minitest tests"
+
+desc "Run example scripts"
+task :examples do
+  Dir['examples/**/*.rb'].each { |fn|
+    puts
+    sh "ruby -Ilib #{fn}"
+    puts
+  }
+end
+
+task default: [:test, :examples]
+
+#
+# C EXTENSION
+#
+
 
 begin
   gem "rake-compiler"
@@ -37,6 +44,11 @@ rescue Exception => e
   warn "rake-compiler error: #{e}"
 end
 
+#
+# GEM BUILD / PUBLISH
+#
+
+
 begin
   require 'buildar'
 
@@ -48,13 +60,4 @@ begin
   end
 rescue LoadError
   # ok
-end
-
-desc "Run example scripts"
-task :examples do
-  Dir['examples/**/*.rb'].each { |fn|
-    puts
-    sh "ruby -Ilib #{fn}"
-    puts
-  }
 end
