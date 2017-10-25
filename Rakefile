@@ -1,10 +1,9 @@
 require "rake/testtask"
 
-# add test task
 Rake::TestTask.new do |t|
-  t.test_files = FileList['test/**/*.rb']
+  t.pattern = "test/*.rb"
+  t.warning = true
 end
-desc "Run minitest tests"
 
 desc "Run example scripts"
 task :examples do
