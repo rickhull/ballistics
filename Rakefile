@@ -7,9 +7,9 @@ end
 
 desc "Run example scripts"
 task :examples do
-  Dir['examples/**/*.rb'].each { |fn|
+  Dir['examples/**/*.rb'].each { |filepath|
     puts
-    sh "ruby -Ilib #{fn}"
+    sh "ruby -Ilib #{filepath}"
     puts
   }
 end
@@ -58,5 +58,5 @@ begin
     b.use_git = true
   end
 rescue LoadError
-  # ok
+  warn "could not load buildar tasks"
 end
