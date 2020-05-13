@@ -10,7 +10,7 @@ describe Ballistics do
       sight_height: 1.6,
       zero_range: 100,
     }
-    Ballistics.zero_angle(opts).round(6).must_equal 0.227188
+    expect(Ballistics.zero_angle(opts).round(6)).must_equal 0.227188
   end
 
   it "calculates the expected trajectory" do
@@ -26,6 +26,6 @@ describe Ballistics do
       interval: 25,
       shooting_angle: 0,
     }
-    Ballistics.trajectory(opts).must_be_kind_of Array
+    expect(Ballistics.trajectory(opts)).must_be_kind_of Array
   end
 end

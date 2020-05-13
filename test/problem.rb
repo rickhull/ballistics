@@ -7,8 +7,8 @@ describe Problem do
   describe "enrich" do
     it "tolerates empty input" do
       hsh = Problem.new.enrich
-      hsh.wont_be_empty
-      hsh.must_equal Problem::DEFAULTS
+      expect(hsh).wont_be_empty
+      expect(hsh).must_equal Problem::DEFAULTS
     end
 
     it "infers projectile params" do
@@ -17,8 +17,10 @@ describe Problem do
                            "grains" => 100,
                            "g7" => 0.445)
       hsh = Problem.new(projectile: prj).enrich
-      hsh.wont_be_empty
-      prj.params.each { |sym, val| hsh[sym].must_equal val }
+      expect(hsh).wont_be_empty
+      prj.params.each { |sym, val|
+        expect(hsh[sym]).must_equal val
+      }
     end
   end
 
@@ -44,10 +46,10 @@ describe Problem do
     end
 
     it "raises with insufficient params" do
-      proc { Problem.trajectory(drag_function: 'G1',
-                                drag_number: 1,
-                                ballistic_coefficient: 0.5,
-                                velocity: 2850) }.must_raise Exception
+      expect(proc { Problem.trajectory(drag_function: 'G1',
+                                       drag_number: 1,
+                                       ballistic_coefficient: 0.5,
+                                       velocity: 2850) }).must_raise Exception
     end
 
     it "has the expected range" do
@@ -60,7 +62,7 @@ describe Problem do
            20 => 500,
            40 => 1000,
           ].each { |i, val|
-        t[i]['range'].must_equal val
+        expect(t[i]['range']).must_equal val
       }
     end
 
@@ -74,7 +76,7 @@ describe Problem do
            20 => -40.1,
            40 => -282.5,
           ].each { |i, val|
-        t[i]['path'].round(1).must_equal val
+        expect(t[i]['path'].round(1)).must_equal val
       }
     end
 
@@ -88,7 +90,7 @@ describe Problem do
            20 => 2108,
            40 => 1500,
           ].each { |i, val|
-        t[i]['velocity'].to_i.must_equal val
+        expect(t[i]['velocity'].to_i).must_equal val
       }
     end
 
@@ -102,7 +104,7 @@ describe Problem do
            20 => 7.7,
            40 => 27,
           ].each { |i, val|
-        t[i]['moa_correction'].round(1).must_equal val
+        expect(t[i]['moa_correction'].round(1)).must_equal val
       }
     end
 
@@ -116,7 +118,7 @@ describe Problem do
            20 => 15.2,
            40 => 71.3,
           ].each { |i, val|
-        t[i]['windage'].round(1).must_equal val
+        expect(t[i]['windage'].round(1)).must_equal val
       }
     end
 
@@ -130,7 +132,7 @@ describe Problem do
            20 => 2.9,
            40 => 6.8,
           ].each { |i, val|
-        t[i]['moa_windage'].round(1).must_equal val
+        expect(t[i]['moa_windage'].round(1)).must_equal val
       }
     end
   end

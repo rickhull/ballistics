@@ -12,15 +12,15 @@ describe Atmosphere do
   end
 
   it "translates a ballistic coefficient" do
-    Atmosphere.translate(0.338,
-                         altitude: @altitude,
-                         humidity: @humidity,
-                         pressure: @pressure,
-                         temp: @temp).round(3).must_equal 0.392
+    expect(Atmosphere.translate(0.338,
+                                altitude: @altitude,
+                                humidity: @humidity,
+                                pressure: @pressure,
+                                temp: @temp).round(3)).must_equal 0.392
 
-    Atmosphere.new("altitude" => @altitude,
-                   "humidity" => @humidity,
-                   "pressure" => @pressure,
-                   "temp" => @temp).translate(0.338).round(3).must_equal 0.392
+    expect(Atmosphere.new("altitude" => @altitude,
+                          "humidity" => @humidity,
+                          "pressure" => @pressure,
+                          "temp" => @temp).translate(0.338).round(3)).must_equal 0.392
   end
 end
