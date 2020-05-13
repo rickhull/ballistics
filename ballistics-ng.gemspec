@@ -4,7 +4,6 @@ Gem::Specification.new do |s|
   s.author = 'Rick Hull'
   s.homepage = 'https://github.com/rickhull/ballistics'
   s.license = 'GPL-3.0'
-  s.has_rdoc = true
   s.description = <<EOF
 Ballistics-ng is based (currently) on C code derived from the GNU Ballistics project; this gem is originally based on the ballistics gem, which was abandoned in 2013.  Very little code remains from that project.
 EOF
